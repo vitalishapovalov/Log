@@ -1,6 +1,7 @@
 # Automated, styled, declarative javascript logging
 
 [![npm version](https://badge.fury.io/js/%40js-utilities%2Flog.svg)](https://badge.fury.io/js/%40js-utilities%2Flog)
+[![Build Status](https://travis-ci.org/vitalishapovalov/js-utilities.svg?branch=master)](https://travis-ci.org/vitalishapovalov/js-utilities)
 
 An utility to automatically log object properties access/set/delete etc., descriptor modification, function calls and a lot [more](#options) in a human-readable way.
 
