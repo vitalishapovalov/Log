@@ -5,7 +5,6 @@ import { resolveDecoratorType } from "./utils";
 import { Configuration } from "./modules/Configuration";
 import { StringDecorator } from "./modules/StringDecorator";
 import { LoggerProxyFactory } from "./modules/LoggerProxyFactory";
-import {  } from "@js-utilities/typecheck/src";
 
 // tslint:disable-next-line:function-name
 export function Log(

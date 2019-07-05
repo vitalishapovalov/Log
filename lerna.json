@@ -6,7 +6,11 @@
   "version": "0.1.2-alpha.0",
   "command": {
     "publish": {
-      "allowBranch": "master"
+      "allowBranch": "master",
+      "ignoreChanges": [
+        "*.md",
+        "__tests__"
+      ]
     }
   }
 }
