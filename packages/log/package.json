@@ -33,7 +33,7 @@
     "lint": "tslint -c tslint.ts 'src/**/*.ts'"
   },
   "dependencies": {
-    "@js-utilities/typecheck": "file:../typecheck",
+    "@js-utilities/typecheck": "^0.1.2",
     "chalk": "2.4.2",
     "reflect-metadata": "0.1.13",
     "template-colors-web": "1.0.0",
@@ -58,5 +58,5 @@
       "<rootDir>/jest.setup.ts"
     ]
   },
-  "gitHead": "fe9f1938b2a0ce1f4b3a6fde5c28622179822406"
+  "gitHead": "f0af3f09c007e256963f1d4bdedac940198b3f76"
 }
