@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "rm -rf ./node_modules && lerna clean --yes && lerna exec -- rm -rf .rpt2_cache && lerna exec -- rm -rf coverage",
-    "bootstrap": "lerna bootstrap --no-ci",
+    "bootstrap": "lerna bootstrap --hoist",
     "test": "lerna run test",
     "build": "lerna run build",
     "lint": "lerna run lint",
