@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "moduleResolution": "node",
+    "target": "es5",
+    "module":"es2015",
+    "lib": ["es2015"],
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "declarationDir": "dist/types",
+    "typeRoots": ["node_modules/@types", "../../node_modules/@types"]
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}

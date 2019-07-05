@@ -1,0 +1,15 @@
+export const enum ProxyTrap {
+    CONSTRUCT = "construct",
+    GET_PROTOTYPE_OF = "getPrototypeOf",
+    SET_PROTOTYPE_OF = "setPrototypeOf",
+    IS_EXTENSIBLE = "isExtensible",
+    PREVENT_EXTENSIONS = "preventExtensions",
+    GET_OWN_PROPERTY_DESCRIPTOR = "getOwnPropertyDescriptor",
+    HAS = "has",
+    GET = "get",
+    SET = "set",
+    DELETE_PROPERTY = "deleteProperty",
+    DEFINE_PROPERTY = "defineProperty",
+    OWN_KEYS = "ownKeys",
+    APPLY = "apply",
+}

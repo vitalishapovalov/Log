@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`log/log test when used on a function should correctly log apply 1`] = `"[\\"\\\\n  Logger         @  TFunction                                      \\\\n  Call function  @  TFunction(arg1: Number, arg2: Array): String;  \\\\n  Call context   @  undefined                                      \\\\n  Call with      @  (100, [\\\\\\"alex\\\\\\"])                                \\\\n  Call result    @  \\\\\\"value\\\\\\"                                        \\"]"`;
+
+exports[`log/log test when used on an object should correctly log actions 1`] = `"[\\"\\\\n  Access property  @  prop: String;  \\\\n  Access result    @  \\\\\\"prop_value\\\\\\"   \\"]"`;
+
+exports[`log/log test when used on an object should correctly log actions 2`] = `"[\\"\\\\n  Set property  @  prop: String;  \\\\n  Set succeed   @  prop = \\\\\\"\\\\\\";     \\"]"`;
+
+exports[`log/log test when used on an object should correctly log actions 3`] = `"[\\"\\\\n  Access property  @  get getSet(): String;  \\\\n  Access result    @  \\\\\\"getSet_value\\\\\\"         \\"]"`;
+
+exports[`log/log test when used on an object should correctly log actions 4`] = `"[\\"\\\\n  Set property  @  getSet: String;  \\\\n  Set succeed   @  getSet = \\\\\\"\\\\\\";     \\"]"`;
+
+exports[`log/log test when used on an object should correctly log actions 5`] = `"[\\"\\\\n  Call method  @  method(): String;  \\\\n  Call result  @  \\\\\\"method_value\\\\\\"     \\"]"`;

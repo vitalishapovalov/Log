@@ -1,0 +1,50 @@
+{
+  "name": "@js-utilities/typecheck",
+  "version": "0.1.0",
+  "description": "Utility library for javascript type checking.",
+  "license": "MIT",
+  "author": {
+    "name": "Vitalii Shapovalov",
+    "email": "<shapovalov.vitali.v@gmail.com>"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "rollup -c rollup.config.ts --name typecheck",
+    "test": "jest --coverage",
+    "lint": "tslint -c tslint.ts 'src/**/*.ts'"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "rollup": "^1.15.6",
+    "tslint": "^5.18.0"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "target": "es6"
+        }
+      }
+    },
+    "transform": {
+      ".ts": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "/__tests__/.*.spec.(ts|js)$",
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/",
+      "/dist/"
+    ]
+  }
+}

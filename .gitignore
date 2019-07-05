@@ -1,0 +1,17 @@
+# OS
+.DS_Store
+
+# IDE
+.idea
+*.xml
+
+# JS
+packages/**/dist
+node_modules
+package-lock.json
+
+# Rollup
+.rpt2_cache
+
+# Tests
+packages/**/coverage

@@ -1,0 +1,9 @@
+__test__
+.rpt2_cache
+coverage
+src
+node_modules
+tsconfig.json
+rollup.config.ts
+*.log
+tslint.ts

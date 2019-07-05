@@ -1,0 +1,53 @@
+{
+  "name": "@js-utilities/log",
+  "version": "0.1.0",
+  "description": "Utility library for javascript logging.",
+  "license": "MIT",
+  "author": {
+    "name": "Vitalii Shapovalov",
+    "email": "<shapovalov.vitali.v@gmail.com>"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "dist/index.umd.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/types/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "build": "rollup -c rollup.config.ts --name log",
+    "test": "jest --coverage",
+    "lint": "tslint -c tslint.ts 'src/**/*.ts'"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "rollup": "^1.15.6",
+    "tslint": "^5.18.0"
+  },
+  "dependencies": {
+    "@js-utilities/typecheck": "0.1.0",
+    "chalk": "2.4.2",
+    "reflect-metadata": "0.1.13",
+    "template-colors-web": "1.0.0",
+    "xmldom": "0.1.27"
+  },
+  "jest": {
+    "transform": {
+      ".ts": "ts-jest"
+    },
+    "testEnvironment": "node",
+    "testRegex": "/__tests__/.*.spec.(ts|js)$",
+    "moduleFileExtensions": [
+      "js",
+      "ts"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/__tests__/",
+      "/dist/"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.ts"
+    ]
+  }
+}
