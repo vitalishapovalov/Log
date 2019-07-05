@@ -2,7 +2,7 @@
 
 [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/)
 ![license](https://img.shields.io/github/license/vitalishapovalov/js-utilities.svg)
-[![Build Status](https://travis-ci.org/vitalishapovalov/js-utilities.svg?branch=master)](https://travis-ci.org/vitalishapovalov/js-utilities)
+[![Build Status](https://travis-ci.org/vitalishapovalov/js-utilities.svg?branch=master)](https://travis-ci.org/vitalishapovalov/js-utilities) [![Greenkeeper badge](https://badges.greenkeeper.io/vitalishapovalov/js-utilities.svg)](https://greenkeeper.io/)
 
 JavaScript packages, whose main purpose is to help developers solve routine problems. Can be used in `browser` or `node.js`, `javascript` or `typescript`.
 
