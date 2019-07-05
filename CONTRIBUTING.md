@@ -56,6 +56,14 @@ cd packages/typecheck
 npm test
 ```
 
+## Publishing
+
+Simply
+
+```bash
+lerna publish
+```
+
 ## Other available commands
 
 | Command              | Description                                                    |
