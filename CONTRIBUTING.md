@@ -53,7 +53,7 @@ To build specific package, simply run it from within the package dir, for exampl
 ```bash
 cd packages/typecheck
 
-npm test
+npm run build
 ```
 
 ## Publishing
@@ -70,4 +70,4 @@ lerna publish
 | -------------------- | ---------------------------------------------------------------|
 | `npm run clean`      | Delete all of the `node_modules`, `rpt2_cache` and `coverage`  |                                                   |         
 | `npm run cleanBuild` | Clean, install and build                                       |     
-| `npm run lint`       | Run tests in all packages                                      |  
+| `npm run lint`       | Run tslint in all packages                                      |  

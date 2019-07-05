@@ -450,7 +450,7 @@ class MyComponent extends React.Component {
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
 
 #### Other
 
