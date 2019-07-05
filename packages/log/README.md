@@ -1,5 +1,7 @@
 # Automated, styled, declarative javascript logging
 
+[![npm version](https://badge.fury.io/js/%40js-utilities%2Flog.svg)](https://badge.fury.io/js/%40js-utilities%2Flog)
+
 An utility to automatically log object properties access/set/delete etc., descriptor modification, function calls and a lot [more](#options) in a human-readable way.
 
 In Browser
@@ -10,15 +12,11 @@ In Node.js
 
 ![node.js output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/2.png)
 
-Can be used to inject [logger](#instance-logger)
+Can be used to inject [logger](#instance-logger), has `Light` and `Dark` predefined themes
 
-![light and dark themes](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/3.png)
+![instance logger](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/3-4.png)
 
-`Light` and `Dark` predefined themes
-
-![instance logger](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/4.png)
-
-## Overview
+## Table of Contents
 
 * [Installation](#installation)
 * [Usage](#usage)
@@ -97,7 +95,7 @@ new MyClass().myProp = "value";
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png" alt="console output" width="350" />
 
 #### Method/Getter/Setter
 
@@ -118,7 +116,7 @@ new MyClass().myMethod();
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/6.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/6.png" alt="console output" width="350" />
 
 Also, can be used to override already declared options of owner class.
 
@@ -165,7 +163,7 @@ class MyClass {
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/7.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/7.png" alt="console output" width="350" />
 
 #### Property
 
@@ -191,7 +189,7 @@ new MyClass().prop = 2000;
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/8.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/8.png" alt="console output" width="350" />
 
 #### Parameter
 
@@ -217,7 +215,7 @@ new MyClass().myMethod(["val1", 100, 200], ["val2"]);
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/9.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/9.png" alt="console output" width="350" />
 
 ### Function
 
@@ -261,7 +259,7 @@ logObject.myMethod();
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/10.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/10.png" alt="console output" width="350" />
 
 #### Functions
 
@@ -277,7 +275,7 @@ logObject({ param: "value" });
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/11.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/11.png" alt="console output" width="350" />
 
 ### Instance logger
 
@@ -344,7 +342,7 @@ new MyClass().myMethod();
 
 Console output:
 
-![console output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/12.png)
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/12.png" alt="console output" width="350" />
 
 #### Usage in TypeScript
 

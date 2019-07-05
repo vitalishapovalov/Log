@@ -7,9 +7,32 @@
     "name": "Vitalii Shapovalov",
     "email": "<shapovalov.vitali.v@gmail.com>"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/vitalishapovalov/js-utilities.git"
+  },
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "type checking",
+    "type predicates",
+    "isCallable",
+    "isFunction",
+    "isArrowFunction",
+    "isArray",
+    "isObject",
+    "isBoolean",
+    "isUndefined",
+    "isNumber",
+    "isString",
+    "isSymbol",
+    "isNull",
+    "isMap",
+    "isSet",
+    "isWeakSet",
+    "isWeakMap"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/types/index.d.ts",

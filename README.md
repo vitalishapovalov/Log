@@ -1,5 +1,7 @@
 # JavaScript utilities library
 
+![license](https://img.shields.io/github/license/vitalishapovalov/js-utilities.svg)
+
 JavaScript packages, whose main purpose is to help developers solve routine problems. Can be used in `browser` or `node.js`, `javascript` or `typescript`.
 
 ## Packages

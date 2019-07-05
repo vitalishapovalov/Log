@@ -1,5 +1,7 @@
 # Type checking library
 
+[![npm version](https://badge.fury.io/js/%40js-utilities%2Ftypecheck.svg)](https://badge.fury.io/js/%40js-utilities%2Ftypecheck)
+
 A set of super-simple type checkers. Each checker returns `boolean` value. Most checkers are typescript [type predicates](https://www.typescriptlang.org/docs/handbook/advanced-types.html#using-type-predicates).
 
 ## Installation

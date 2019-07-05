@@ -7,9 +7,22 @@
     "name": "Vitalii Shapovalov",
     "email": "<shapovalov.vitali.v@gmail.com>"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/vitalishapovalov/js-utilities.git"
+  },
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "logging",
+    "logger",
+    "automated logging",
+    "styled logging",
+    "js log",
+    "log decorator",
+    "proxy logger"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.esm.js",
   "types": "dist/types/index.d.ts",
