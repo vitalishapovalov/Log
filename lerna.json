@@ -8,5 +8,8 @@
     "publish": {
       "allowBranch": "master"
     }
+  },
+  "bootstrap": {
+    "npmClientArgs": ["--no-package-lock"]
   }
 }
