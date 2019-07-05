@@ -1,6 +1,6 @@
 {
   "name": "@js-utilities/log",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Utility library for javascript logging.",
   "license": "MIT",
   "author": {
@@ -25,7 +25,7 @@
     "tslint": "^5.18.0"
   },
   "dependencies": {
-    "@js-utilities/typecheck": "0.1.0",
+    "@js-utilities/typecheck": "^0.1.1",
     "chalk": "2.4.2",
     "reflect-metadata": "0.1.13",
     "template-colors-web": "1.0.0",
