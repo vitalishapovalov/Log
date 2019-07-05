@@ -32,13 +32,8 @@
     "test": "jest --coverage",
     "lint": "tslint -c tslint.ts 'src/**/*.ts'"
   },
-  "devDependencies": {
-    "jest": "^24.8.0",
-    "rollup": "^1.15.6",
-    "tslint": "^5.18.0"
-  },
   "dependencies": {
-    "@js-utilities/typecheck": "^0.1.2-alpha.0",
+    "@js-utilities/typecheck": "file:../typecheck",
     "chalk": "2.4.2",
     "reflect-metadata": "0.1.13",
     "template-colors-web": "1.0.0",

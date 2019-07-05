@@ -8,7 +8,7 @@
 # JS
 packages/**/dist
 node_modules
-package-lock.json
+packages/**/package-lock.json
 
 # Rollup
 .rpt2_cache

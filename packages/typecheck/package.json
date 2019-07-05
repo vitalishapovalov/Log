@@ -42,11 +42,6 @@
     "test": "jest --coverage",
     "lint": "tslint -c tslint.ts 'src/**/*.ts'"
   },
-  "devDependencies": {
-    "jest": "^24.8.0",
-    "rollup": "^1.15.6",
-    "tslint": "^5.18.0"
-  },
   "jest": {
     "globals": {
       "ts-jest": {

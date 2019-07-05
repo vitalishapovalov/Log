@@ -10,7 +10,7 @@
   },
   "scripts": {
     "clean": "rm -rf ./node_modules && lerna clean --yes && lerna exec -- rm -rf .rpt2_cache && lerna exec -- rm -rf coverage",
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --hoist",
     "test": "lerna run test",
     "build": "lerna run build",
     "lint": "lerna run lint",
@@ -20,13 +20,16 @@
   "devDependencies": {
     "@types/jest": "^24.0.15",
     "@types/node": "^12.0.12",
+    "jest": "^24.8.0",
     "lerna": "3.15.0",
+    "rollup": "^1.15.6",
     "rollup-plugin-commonjs": "^10.0.0",
     "rollup-plugin-node-resolve": "^5.0.3",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.0.0",
     "rollup-plugin-typescript2": "^0.21.2",
     "ts-jest": "^24.0.2",
+    "tslint": "^5.18.0",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.5.2"
   },
@@ -34,5 +37,9 @@
     "ignore": [
       "lerna"
     ]
+  },
+  "dependencies": {
+    "@js-utilities/log": "file:packages/log",
+    "@js-utilities/typecheck": "file:packages/typecheck"
   }
 }
