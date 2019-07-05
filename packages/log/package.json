@@ -1,6 +1,6 @@
 {
   "name": "@js-utilities/log",
-  "version": "0.1.1",
+  "version": "0.1.2-alpha.0",
   "description": "Utility library for javascript logging.",
   "license": "MIT",
   "author": {
@@ -8,8 +8,8 @@
     "email": "<shapovalov.vitali.v@gmail.com>"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/vitalishapovalov/js-utilities.git"
+    "type": "git",
+    "url": "https://github.com/vitalishapovalov/js-utilities.git"
   },
   "publishConfig": {
     "access": "public"
@@ -38,7 +38,7 @@
     "tslint": "^5.18.0"
   },
   "dependencies": {
-    "@js-utilities/typecheck": "^0.1.1",
+    "@js-utilities/typecheck": "^0.1.2-alpha.0",
     "chalk": "2.4.2",
     "reflect-metadata": "0.1.13",
     "template-colors-web": "1.0.0",
