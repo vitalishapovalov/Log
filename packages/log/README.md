@@ -98,6 +98,18 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png" alt="console output" width="350" />
 
+Also, it but be used as decorator, but without `@Log` syntax:
+
+```typescript
+import { Log } from "@js-utilities/log";
+
+// without options
+export default Log(class MyClass {});
+
+// with options
+export default Log({ provideLogger: true })(class MyClass {});
+```
+
 #### Method/Getter/Setter
 
 When used as a method/getter/setter or a `static` method/getter/setter decorator, will log all of the calls.
