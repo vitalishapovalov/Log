@@ -106,8 +106,8 @@ export default function (
     if (shouldLogResult) {
         message.push(SD.getAssembledField(
             resultLabel,
-            // default log depth for call results is 2.
-            SD.unknownType(result, true, 2)
+            // default log depth for call results is 1.
+            SD.unknownType(result, true, 1)
         ));
     }
 
