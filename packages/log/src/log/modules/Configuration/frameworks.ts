@@ -34,6 +34,7 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
             "updater",
             "_reactInternalFiber",
             "_reactInternalInstance",
+            "__reactInternalSnapshotBeforeUpdate",
             "getInitialState",
             "getDefaultProps",
             "UNSAFE_componentWillUpdate",
