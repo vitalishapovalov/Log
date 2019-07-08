@@ -87,7 +87,7 @@ export function Log(
                     preparedOptions
                 );
             case null:
-                console.error(
+                throw new SyntaxError(
                     "Incorrect @Log usage, decorator type can't be resolved." + "\n" +
                     "Consider using it on a class, method, property or a parameter."
                 );

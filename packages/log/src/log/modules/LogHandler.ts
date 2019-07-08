@@ -22,9 +22,9 @@ export namespace LogHandler {
             const trapResultValue = (() => {
                 try {
                     const res = Reflect.apply(value, this, innerArgs);
-                    // MDN: In strict mode, a false return value from the set handler
+                    // MDN: In strict mode, a false return value from the "set" handler
                     //      will throw a TypeError exception.
-                    // we should avoid this behaviour and true in any case if target is setter
+                    // we should avoid this behaviour and return true in any case if target is a setter
                     return isSet || res;
                 } catch {
                     return false;
@@ -53,7 +53,7 @@ export namespace LogHandler {
     }
 
     export function handleTrap(messageHandler: MessageHandler) {
-        return function <U extends object>(target: U, trapName: string, descriptor: PropertyDescriptor) {
+        return function <U extends object>(target: U, trapName: ProxyTrap, descriptor: PropertyDescriptor) {
             const value = descriptor.value;
 
             descriptor.value = function (...args: any[]) {
@@ -67,9 +67,9 @@ export namespace LogHandler {
                 const isProperty = Configuration.isProperty(options, metadataOptions);
                 const isStaticProperty = isStatic && isProperty;
                 const isOwnMethod = isOwnM(argsTarget, argsPropKey);
-                // MDN: In strict mode, a false return value from the set handler
+                // MDN: In strict mode, a false return value from the "set" handler
                 //      will throw a TypeError exception.
-                // we should avoid this behaviour and true in any case if target is setter
+                // we should avoid this behaviour and return true in any case if target is a setter
                 const trapResultValueToReturn = trapName === ProxyTrap.SET ? true : trapResultValue;
 
                 // available metadataOptions means that property has @Log decorator on it

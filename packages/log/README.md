@@ -98,7 +98,7 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png" alt="console output" width="350" />
 
-Also, it but be used as decorator, but without `@Log` syntax:
+Also, it can be used as a decorator, but without the `@Log` syntax:
 
 ```typescript
 import { Log } from "@js-utilities/log";
@@ -135,7 +135,7 @@ Also, can be used to override already declared options of owner class.
 
 For example:
 
-Disable method logging:
+Disable specific method logging:
 
 ```typescript
 @Log

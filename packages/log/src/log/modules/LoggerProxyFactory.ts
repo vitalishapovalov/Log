@@ -1,7 +1,7 @@
 import { isFunction } from "@js-utilities/typecheck";
 
 import { Constructor, GetSet, LoggerOptions, ProxyTrap } from "../types";
-import { getTimeToExecMs, getUnderlyingPrototype, now } from "../utils";
+import { getTimeToExecMs, now } from "../utils";
 import { MessageLogger } from "./MessageLogger";
 import { MessageConstructor } from "./MessageConstructor";
 import { LoggerProxy } from "./LoggerProxy";
@@ -17,12 +17,7 @@ export namespace LoggerProxyFactory {
                 super(...args);
                 const timeToExecMs = getTimeToExecMs(start);
 
-                const underlyingProtoConstructor = getUnderlyingPrototype(this).constructor;
-                // if it's subclass, constructors will match
-                const isLoggerSubclass = underlyingProtoConstructor !== constructor
-                    // avoid cases when decorated class extends native constructors
-                    && !(underlyingProtoConstructor === Object);
-
+                const isLoggerSubclass = Configuration.isLoggerSubclass(this, constructor);
                 if (isLoggerSubclass && !options.logSubclass) return this;
 
                 const completeOptions: LoggerOptions = {
