@@ -148,9 +148,9 @@ export namespace Configuration {
     ): boolean {
         const frameworkName = options[constants.FRAMEWORK_NAME];
         const frameworkConfig = _frameworks.FRAMEWORKS[frameworkName];
-        for (const k of Reflect.ownKeys(options[frameworkName])) {
+        for (const k of Object.getOwnPropertyNames(options[frameworkName])) {
             if (!frameworkConfig[k] || !frameworkConfig[k].includes(propKey)) continue;
-            return isLogEnabledForPropKey(options.react[k], propKey) && (
+            return isLogEnabledForPropKey(options[frameworkName][k], propKey) && (
                 isOwnMethod
                 || frameworkConfig.isLogDesirable(propKey)
             );

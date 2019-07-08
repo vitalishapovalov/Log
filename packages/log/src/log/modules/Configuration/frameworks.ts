@@ -2,12 +2,6 @@ import { isFunction } from "@js-utilities/typecheck";
 
 import { FrameworkInterface } from "../../types";
 
-/**
- * TODO
- *  abstract 'includes', 'isHook'
- *  isNestComponent
- */
-
 export enum FrameworkConfigDynamicKey {
     TECHNICAL = "logTechnical",
     STATE = "logState",
@@ -24,21 +18,41 @@ export enum FrameworkConfigStaticKey {
 
 export enum SupportedFrameworks {
     REACT = "react",
-    NEST = "nest"
+    NEST = "nest",
 }
 
-export const resolveFrameworkName = (target: object): SupportedFrameworks => {
-    if (isReactComponent(target)) return SupportedFrameworks.REACT;
-    return null;
-};
+abstract class Framework implements FrameworkInterface {
+
+    includes(str: PropertyKey): boolean {
+        const props = [];
+        for (const k in FrameworkConfigDynamicKey) props.push(...this[FrameworkConfigDynamicKey[k]]);
+        return props.includes(str);
+    }
+
+    isHook(str: PropertyKey): boolean {
+        return this[FrameworkConfigDynamicKey.HOOKS].includes(str);
+    }
+
+    abstract isLogDesirable(str: PropertyKey): boolean;
+    abstract shouldLogReturnValue(str: PropertyKey): boolean;
+
+    abstract [FrameworkConfigDynamicKey.TECHNICAL];
+    abstract [FrameworkConfigDynamicKey.HOOKS];
+    abstract [FrameworkConfigDynamicKey.STATE];
+    abstract [FrameworkConfigDynamicKey.PROPS];
+    abstract [FrameworkConfigDynamicKey.REFS];
+    abstract [FrameworkConfigDynamicKey.CONTEXT];
+    abstract [FrameworkConfigDynamicKey.OTHER];
+}
 
 export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
     /**
      * React.js
      * https://reactjs.org/
      */
-    [SupportedFrameworks.REACT]: Object.freeze({
-        [FrameworkConfigDynamicKey.TECHNICAL]: Object.freeze([
+    [SupportedFrameworks.REACT]: new class extends Framework {
+
+        [FrameworkConfigDynamicKey.TECHNICAL] = Object.freeze([
             "__reactInternalSnapshotBeforeUpdate",
             "_reactInternalFiber",
             "_reactInternalInstance",
@@ -58,8 +72,9 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
             "reactstandinproxyGeneration",
             "REACT_HOT_LOADER_RENDERED_GENERATION",
             "$$typeof",
-        ]),
-        [FrameworkConfigDynamicKey.HOOKS]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.HOOKS] = Object.freeze([
             "render",
             "componentDidMount",
             "shouldComponentUpdate",
@@ -72,41 +87,40 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
             "componentWillRecieveProps",
             "getDerivedStateFromProps",
             "getDerivedStateFromError",
-        ]),
-        [FrameworkConfigDynamicKey.STATE]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.STATE] = Object.freeze([
             "state",
-        ]),
-        [FrameworkConfigDynamicKey.PROPS]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.PROPS] = Object.freeze([
             "props",
-        ]),
-        [FrameworkConfigDynamicKey.REFS]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.REFS] = Object.freeze([
             "refs",
-        ]),
-        [FrameworkConfigDynamicKey.CONTEXT]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.CONTEXT] = Object.freeze([
             "context",
-        ]),
-        [FrameworkConfigDynamicKey.OTHER]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.OTHER] = Object.freeze([
             "forceUpdate",
             "setState",
             "contextType",
             "contextTypes",
             "propTypes",
             "defaultProps",
-        ]),
-        includes(str: PropertyKey): boolean {
-            const props = [];
-            for (const k in FrameworkConfigDynamicKey) props.push(...this[FrameworkConfigDynamicKey[k]]);
-            return props.includes(str);
-        },
-        isHook(str: PropertyKey): boolean {
-            return this[FrameworkConfigDynamicKey.HOOKS].includes(str);
-        },
+        ]);
+
         isLogDesirable(str: PropertyKey): boolean {
             return [
                 "forceUpdate",
                 "setState",
             ].includes(str as string);
-        },
+        }
+
         shouldLogReturnValue(str: PropertyKey): boolean {
             return [
                 "render",
@@ -115,17 +129,20 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
                 "getDerivedStateFromProps",
                 "getDerivedStateFromError",
             ].includes(str as string);
-        },
-    }),
+        }
+    },
+
     /**
      * Nest.js
      * https://nestjs.com/
      */
-    [SupportedFrameworks.NEST]: Object.freeze({
-        [FrameworkConfigDynamicKey.TECHNICAL]: Object.freeze([
+    [SupportedFrameworks.NEST]: new class extends Framework {
+
+        [FrameworkConfigDynamicKey.TECHNICAL] = Object.freeze([
             "then",
-        ]),
-        [FrameworkConfigDynamicKey.HOOKS]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.HOOKS] = Object.freeze([
             "onModuleInit",
             "onModuleDestroy",
             "onApplicationBootstrap",
@@ -133,34 +150,32 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
             "configure",
             "getGlobalInterceptors",
             "getGlobalGuards",
-        ]),
-        [FrameworkConfigDynamicKey.STATE]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.STATE] = Object.freeze([
             "",
-        ]),
-        [FrameworkConfigDynamicKey.PROPS]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.PROPS] = Object.freeze([
             "",
-        ]),
-        [FrameworkConfigDynamicKey.REFS]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.REFS] = Object.freeze([
             "",
-        ]),
-        [FrameworkConfigDynamicKey.CONTEXT]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.CONTEXT] = Object.freeze([
             "context",
-        ]),
-        [FrameworkConfigDynamicKey.OTHER]: Object.freeze([
+        ]);
+
+        [FrameworkConfigDynamicKey.OTHER] = Object.freeze([
             "use",
             "intercept",
             "catch",
             "transform",
             "canActivate",
-        ]),
-        includes(str: PropertyKey): boolean {
-            const props = [];
-            for (const k in FrameworkConfigDynamicKey) props.push(...this[FrameworkConfigDynamicKey[k]]);
-            return props.includes(str);
-        },
-        isHook(str: PropertyKey): boolean {
-            return this[FrameworkConfigDynamicKey.HOOKS].includes(str);
-        },
+        ]);
+
         isLogDesirable(str: PropertyKey): boolean {
             return [
                 "use",
@@ -169,7 +184,8 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
                 "transform",
                 "canActivate",
             ].includes(str as string);
-        },
+        }
+
         shouldLogReturnValue(str: PropertyKey): boolean {
             return [
                 "configure",
@@ -178,12 +194,27 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
                 "transform",
                 "canActivate"
             ].includes(str as string);
-        },
-    })
+        }
+    }
 };
 
-// tslint:disable-next-line:variable-name
+// tslint:disable:variable-name
+
+export const resolveFrameworkName = (target: object): SupportedFrameworks => {
+    if (isReactComponent(target)) return SupportedFrameworks.REACT;
+    if (isNestComponent(target)) return SupportedFrameworks.NEST;
+    return null;
+};
+
 const isReactComponent = (_this: object): boolean => (
     (isFunction(_this) && String(_this).includes("return React.createElement"))
     || Boolean((Reflect.getPrototypeOf(_this) as any).isReactComponent)
 );
+
+const isNestComponent = (_this: object): boolean => {
+    const hasOptionsMetadata = Reflect.hasMetadata("scope:options", _this);
+    console.log("hasOwnMetadata", Reflect.hasOwnMetadata("scope:options", _this));
+    console.log("hasMetadata", Reflect.hasMetadata("scope:options", _this));
+    console.log(Reflect.getMetadataKeys(_this));
+    return hasOptionsMetadata;
+};

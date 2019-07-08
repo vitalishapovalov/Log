@@ -380,7 +380,7 @@ So we need to explicitly define which properties should be logged and which shou
 
 For the moment, only [React](https://github.com/facebook/react/) is supported.
 
-#### React
+#### React.js
 
 React configuration description:
 
@@ -464,6 +464,8 @@ class MyComponent extends React.Component {
 Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
+
+#### Nest.js
 
 #### Other
 

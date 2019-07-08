@@ -53,7 +53,7 @@ export namespace LogHandler {
     }
 
     export function handleTrap(messageHandler: MessageHandler) {
-        return function <U extends object>(target: U, trapName: ProxyTrap, descriptor: PropertyDescriptor) {
+        return function <U extends object>(target: U, trapName: string, descriptor: PropertyDescriptor) {
             const value = descriptor.value;
 
             descriptor.value = function (...args: any[]) {
