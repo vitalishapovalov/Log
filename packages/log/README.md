@@ -23,7 +23,7 @@ Can be used to inject [logger](#instance-logger), has `Light` and `Dark` predefi
 * [Usage](#usage)
   * [Decorator](#decorator)
     * [Class](#class)
-    * [Method/Get/Set](#method/get/set)
+    * [Method/Getter/Setter](#method/getter/setter)
     * [Property](#property)
     * [Parameter](#parameter)
   * [Function](#function)
@@ -98,16 +98,16 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png" alt="console output" width="350" />
 
-Also, it can be used as a decorator, but without the `@Log` syntax:
+Also, it can be used as a decorator, but without decorators syntax:
 
 ```typescript
 import { Log } from "@js-utilities/log";
 
-// without options
-export default Log(class MyClass {});
-
 // with options
 export default Log({ provideLogger: true })(class MyClass {});
+
+// without options
+export default Log(class MyClass {});
 ```
 
 #### Method/Getter/Setter
@@ -407,7 +407,53 @@ Console output:
 
 ##### Nest.js:
 
-// TODO docs about logging controllers/https methods
+###### On-class usage:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { Log } from "@js-utilities/log";
+
+@Log({ nest: { logHooks: true } })
+@Module({
+  imports: [],
+})
+export class AppModule {
+  configure() {
+    return {};
+  }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/14.png" alt="console output" width="350" />
+
+###### HTTP methods
+
+```typescript
+import { Controller, Get } from '@nestjs/common';
+import { Log } from "@js-utilities/log";
+import { AppService } from './app.service';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get("hello")
+  @Log({
+    logTimeStamp: true,
+    logExecutionTime: true,
+  })
+  async getHello(): Promise<string> {
+    await this.appService.asyncAction();
+    return this.appService.getHello();
+  }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/15.png" alt="console output" width="350" />
 
 ##### Other:
 
