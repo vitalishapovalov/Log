@@ -160,6 +160,9 @@ export class StringDecorator {
     }
 
     public unknownType(val: any, removeBrackets?: boolean, logDepth?: number): string {
+        if (val === Configuration.constants.PROMISE_FAILED) {
+            return this.failed("failed");
+        }
         switch (resolveDesignType(val)) {
             case DesignType.BOOLEAN:
                 return this.boolean(val);

@@ -178,6 +178,8 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/7.png" alt="console output" width="350" />
 
+If method return value type is `Promise`, logger will resolve it's value and log it, instead of promise object. Execution time will also be re-calculated.
+
 #### Property
 
 Can be used on a property, but due to some limitations, only along with class decorator.

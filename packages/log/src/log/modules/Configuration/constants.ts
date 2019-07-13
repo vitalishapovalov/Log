@@ -15,6 +15,8 @@ export const IS_SUBCLASS: unique symbol = Symbol();
 
 export const FRAMEWORK_NAME: unique symbol = Symbol();
 
+export const PROMISE_FAILED: unique symbol = Symbol();
+
 export const DEFAULT_LINE_HEIGHT = "20px" as const;
 
 export const INSTANCE_LOGGER_NAME = "logger" as const;

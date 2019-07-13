@@ -39,7 +39,9 @@ export namespace LogHandler {
             }
 
             if (isPromise(trapResultValue)) {
-                trapResultValue.then((result: any) => logMessage(result, this));
+                trapResultValue
+                    .then((result: any) => logMessage(result, this))
+                    .catch(() => logMessage(Configuration.constants.PROMISE_FAILED, this));
             } else {
                 logMessage(trapResultValue, this, timeToExecMs);
             }
