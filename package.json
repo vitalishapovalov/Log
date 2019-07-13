@@ -9,7 +9,7 @@
     "email": "<shapovalov.vitali.v@gmail.com>"
   },
   "scripts": {
-    "clean": "rm -rf ./node_modules && lerna clean --yes && lerna exec -- rm -rf .rpt2_cache && lerna exec -- rm -rf coverage",
+    "clean": "lerna clean --yes && lerna exec -- rm -rf .rpt2_cache && lerna exec -- rm -rf coverage && rm -rf ./node_modules",
     "bootstrap": "lerna bootstrap --hoist",
     "test": "lerna run test",
     "build": "lerna run build",

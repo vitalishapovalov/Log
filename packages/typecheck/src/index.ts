@@ -73,8 +73,9 @@ export const isWeakMap = <T extends object, U = any>(v: any): v is WeakMap<T, U>
 );
 
 export const isPromise = <T = any>(v: any): v is Promise<T> => (
-    v instanceof Promise
+    !!v &&
+    (v instanceof Promise
     || (
         (typeof v === "object" || typeof v === "function") && typeof v.then === "function"
-    )
+    ))
 );
