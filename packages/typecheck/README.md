@@ -45,7 +45,8 @@ if (isCallable(a)) a();
 | `isMap<T, U>`        | `value is Map<T, U>`           | 
 | `isSet<T>`           | `value is Set<T>`              |     
 | `isWeakSet<T>`       | `value is WeakSet<T>`          |         
-| `isWeakMap<T, U>`    | `value is WeakMap<T, U>`       |     
+| `isWeakMap<T, U>`    | `value is WeakMap<T, U>`       |    
+| `isPromise<T>`       | `value is Promise<T>`          |    
     
 ## License
 

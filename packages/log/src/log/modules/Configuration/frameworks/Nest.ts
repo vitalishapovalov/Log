@@ -75,7 +75,7 @@ export default new class extends Framework {
             "getGlobalInterceptors",
             "getGlobalGuards",
             "transform",
-            "canActivate"
+            "canActivate",
         ].includes(str as string);
     }
 }
