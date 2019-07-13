@@ -1,7 +1,6 @@
 import { isBoolean, isFunction, isUndefined, isArray } from "@js-utilities/typecheck";
 
-import { Constructor, DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
-import { getUnderlyingPrototype } from "../../utils";
+import { DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
 import * as _frameworks from "./frameworks";
 import * as _constants from "./constants";
 
@@ -105,14 +104,6 @@ export namespace Configuration {
     export function getPredictedOptionsName(target: any): string {
         if (isFunction(target)) return `${target.name}`;
         return null;
-    }
-
-    export function isLoggerSubclass(context: object, constructor: Constructor): boolean {
-        const underlyingProtoConstructor = getUnderlyingPrototype(context).constructor;
-
-        return underlyingProtoConstructor !== constructor
-            // avoid cases when decorated class extends native constructors
-            && !(underlyingProtoConstructor === Object);
     }
 
     export function isProperty(...options: LoggerOptions[]): boolean {

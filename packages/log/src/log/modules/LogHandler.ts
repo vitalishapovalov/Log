@@ -19,6 +19,7 @@ export namespace LogHandler {
             const preferredOptions = Configuration.getPreferredOptions(this, propKey);
             const start = now();
 
+            // TODO resolve promise
             const trapResultValue = (() => {
                 try {
                     const res = Reflect.apply(value, this, innerArgs);

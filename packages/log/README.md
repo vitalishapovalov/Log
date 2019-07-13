@@ -376,13 +376,55 @@ Usually, framework entities (e.g. React/Angular components) do a lot of work und
 
 Logging them will pollute console with unwanted information. But we don't know how to distinct tech. properties/hooks.
 
-So we need to explicitly define which properties should be logged and which should be logged specially.
+So we need to explicitly define which properties should be logged and which should be logged in a special way.
 
-For the moment, only [React](https://github.com/facebook/react/) is supported.
+List of framework, which are detected and filtered by `Log`:
 
-#### React.js
+* [React](https://github.com/facebook/react/)
+* [Nest](https://docs.nestjs.com/ )
 
-React configuration description:
+#### Example
+
+##### React.js:
+
+```typescript
+import * as React from "react";
+import { Log } from "@js-utilities/log";
+
+@Log({
+    react: { logHooks: true }
+})
+class MyComponent extends React.Component {
+    render() {
+        return null;
+    }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
+
+##### Nest.js:
+
+// TODO docs about logging controllers/https methods
+
+##### Other:
+
+To avoid console polluting with other frameworks / libraries, disable all props logging and enable only wanted ones explicitly:
+
+```typescript
+import { Log } from "@js-utilities/log";
+
+@Log({ logProperties: ["myProp"] })
+class MyClass extends FrameworkEntity {
+    myProp = "value";
+}
+```
+
+#### Framework config
+
+Framework configuration description:
 
 ```typescript
 type FrameworkConfig = {
@@ -409,7 +451,7 @@ type FrameworkConfig = {
     logProps?: boolean | string[];
     
     /**
-     * Hooks to log (e.g. "render", "shouldComponentUpdate").
+     * Hooks to log (e.g. "render", "shouldComponentUpdate", "onModuleInit").
      * 
      * @default undefined
      */
@@ -430,7 +472,7 @@ type FrameworkConfig = {
     logContext?: boolean | string[];
     
     /**
-     * Other react properties to log (e.g. "setState", "forceUpdate").
+     * Other react properties to log (e.g. "setState", "forceUpdate", "intercept").
      * 
      * @default undefined
      */
@@ -442,41 +484,6 @@ type FrameworkConfig = {
      * @default 1
      */
     argsLogDepth?: number;
-}
-```
-
-Example:
-
-```typescript
-import * as React from "react";
-import { Log } from "@js-utilities/log";
-
-@Log({
-    react: { logHooks: true }
-})
-class MyComponent extends React.Component {
-    render() {
-        return null;
-    }
-}
-```
-
-Console output:
-
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
-
-#### Nest.js
-
-#### Other
-
-To avoid console polluting with other frameworks / libraries, disable all props logging and enable only wanted ones explicitly:
-
-```typescript
-import { Log } from "@js-utilities/log";
-
-@Log({ logProperties: ["myProp"] })
-class MyClass extends FrameworkEntity {
-    myProp = "value";
 }
 ```
 
@@ -584,13 +591,6 @@ type LoggerOptions = {
      * @default false
      */
     logExecutionTime?: boolean;
-
-    /**
-     * Log subclasses of the class containing @Log declaration.
-     *
-     * @default false
-     */
-    logSubclass?: boolean;
 
     /**
      * Add timestamp for each log message.

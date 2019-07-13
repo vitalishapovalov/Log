@@ -52,7 +52,6 @@ export const DEFAULT_OPTIONS: Readonly<LoggerOptions> = (() => {
         logWellKnownSymbols: false,
         logProtoMethods: false,
         logExecutionTime: false,
-        logSubclass: false,
         logTimeStamp: false,
         argsLogDepth: [],
         [PARAMS_LOG_DEPTH]: [],
