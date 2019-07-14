@@ -1,8 +1,9 @@
-import { FrameworkInterface } from "../../../types";
+import { FrameworkInterface, LoggerOptions } from "../../../types";
 import { SupportedFrameworks } from "./Framework";
 
 import ReactJS from "./React";
 import NestJS from "./Nest";
+import VueJS from "./Vue";
 
 export {
     SupportedFrameworks,
@@ -22,11 +23,22 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
      * https://nestjs.com/
      */
     [SupportedFrameworks.NEST]: NestJS,
+
+    /**
+     * Vue.js
+     * https://vuejs.org
+     */
+    [SupportedFrameworks.VUE]: VueJS,
 };
 
-export const resolveFrameworkName = (target: object): SupportedFrameworks => {
+export const resolveFrameworkName = (target: object, options: LoggerOptions): SupportedFrameworks => {
     for (const framework of Object.keys(FRAMEWORKS)) {
-        if (FRAMEWORKS[framework].isFrameworkComponent(target)) return framework as SupportedFrameworks;
+        if (
+            Boolean(options[framework]) ||
+            FRAMEWORKS[framework].isFrameworkComponent(target)
+        ) {
+            return framework as SupportedFrameworks;
+        }
     }
     return null;
 };

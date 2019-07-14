@@ -3,6 +3,7 @@ import { FrameworkInterface } from "../../../types";
 export enum SupportedFrameworks {
     REACT = "react",
     NEST = "nest",
+    VUE = "vue",
 }
 
 export enum FrameworkConfigStaticKey {

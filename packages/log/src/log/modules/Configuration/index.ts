@@ -1,4 +1,4 @@
-import { isBoolean, isFunction, isUndefined, isArray } from "@js-utilities/typecheck";
+import { isArray, isBoolean, isFunction, isString, isUndefined } from "@js-utilities/typecheck";
 
 import { DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
 import * as _frameworks from "./frameworks";
@@ -18,13 +18,18 @@ export namespace Configuration {
 
     export import resolveFrameworkName = _frameworks.resolveFrameworkName;
 
-    export function getPreferredOptions(target: object, prop: PropertyKey): LoggerOptions {
-        const metadataOptions = Reflect.getMetadata(constants.OPTIONS, target, prop as string | symbol);
+    export function getPreferredOptions(
+        target: object,
+        prop: PropertyKey,
+        alterOptions: LoggerOptions = {}
+    ): LoggerOptions {
+        const metadataOptions = Reflect.getMetadata(constants.OPTIONS, target, prop as string | symbol)
+            || alterOptions || {};
         // if we have target[OPTIONS] defined, we should use'em
         // as general options, and only use defined options from metadataOptions
         // otherwise, fill metadata with missing default options
         const options = Boolean(target[constants.OPTIONS])
-            ? { ...target[constants.OPTIONS], ...(metadataOptions || {}) }
+            ? { ...target[constants.OPTIONS], ...metadataOptions }
             : getMergedWithDefaults(metadataOptions);
 
         // case when parent (class) has @Log decorator with defined theme (or not defined),
@@ -70,6 +75,12 @@ export namespace Configuration {
             && options.logPropertiesFull.includes(propKey)) return true;
 
         if (isFrameworkProperty(options, propKey)) {
+            // frameworks are using different approaches to define hooks/tech props
+            // on objects, some approaches are producing additional logs,
+            // we should eliminate them
+            // 1. log only access to hooks, ignore set and getOwnPropertyDescriptor etc.
+            // 2. hooks should be functions, ignore otherwise
+            if (proxyTrap !== ProxyTrap.GET) return false;
             return isShouldLogFrameworkProperty(options, propKey, isOwnMethod);
         }
 
@@ -102,7 +113,10 @@ export namespace Configuration {
     }
 
     export function getPredictedOptionsName(target: any): string {
-        if (isFunction(target)) return `${target.name}`;
+        if (
+            isFunction(target) ||
+            (Boolean(target) && isString(target.name))
+        ) return `${target.name}`;
         return null;
     }
 

@@ -30,7 +30,15 @@ Can be used to inject [logger](#instance-logger), has `Light` and `Dark` predefi
     * [Objects](#objects)
     * [Functions]($Functions)
   * [Instance logger](#instance-logger)
+    * [Providing & Interface](#providing--interface)
+    * [Styling](#styling)
+    * [Logger usage](#logger-usage)
   * [Frameworks](#frameworks)
+    * [React]()
+    * [Nest]()
+    * [Vue]()
+    * [Other]()
+    * [Framework config]()
   * [Options](#options)
 * [Requirements](#requirements)
 
@@ -359,7 +367,7 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/12.png" alt="console output" width="350" />
 
-#### Usage in TypeScript
+##### Usage in TypeScript
 
 In TypeScript, you should declare `logger` before using:
 
@@ -380,14 +388,15 @@ Logging them will pollute console with unwanted information. But we don't know h
 
 So we need to explicitly define which properties should be logged and which should be logged in a special way.
 
+Frameworks are detected on-the-fly, but can be forced by providing framework name in logger options. Even if provided with empty object.
+
 List of framework, which are detected and filtered by `Log`:
 
-* [React](https://github.com/facebook/react/)
-* [Nest](https://docs.nestjs.com/ )
+* [React 0.14+](https://github.com/facebook/react/)
+* [Nest 6+](https://docs.nestjs.com/)
+* [Vue 2+](https://vuejs.org)
 
-#### Example
-
-##### React.js:
+#### React:
 
 ```typescript
 import * as React from "react";
@@ -407,9 +416,9 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
 
-##### Nest.js:
+#### Nest:
 
-###### On-class usage:
+##### On-class usage:
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -430,7 +439,7 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/14.png" alt="console output" width="350" />
 
-###### HTTP methods
+##### HTTP methods
 
 ```typescript
 import { Controller, Get } from '@nestjs/common';
@@ -457,7 +466,60 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/15.png" alt="console output" width="350" />
 
-##### Other:
+#### Vue:
+
+##### On-object usage
+
+It is important to define `vue` in provided logger options when using with `log` function, at least with empty object as a value.
+It's needed to distinct common objects from vue components.
+
+```vue
+<script>
+import { log } from "@js-utilities/log";
+
+export default log({
+  name: 'HelloWorld',
+  props: { msg: String }
+}, {
+  vue: { logHooks: true }
+});
+</script>
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/16.png" alt="console output" width="350" />
+
+##### On-class usage
+
+When using with `vue-class-component` lib, make sure you've imported `reflect-metadata` before your main `App` module.
+
+```vue
+<script lang="ts">
+import { Log } from '@js-utilities/log';
+import { Component, Vue } from 'vue-property-decorator';
+
+@Log
+@Component
+export default class HelloWorld extends Vue {
+
+  @Log
+  protected mounted() {
+    this.method();
+  }
+
+  private method() {
+    return 'Mounted!';
+  }
+}
+</script>
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/17.png" alt="console output" width="400" />
+
+#### Other:
 
 To avoid console polluting with other frameworks / libraries, disable all props logging and enable only wanted ones explicitly:
 
@@ -478,7 +540,7 @@ Framework configuration description:
 type FrameworkConfig = {
     
     /**
-     * Technical properties to log (e.g. "updater", "_reactInternalFiber").
+     * Technical properties to log (e.g. "updater", "_reactInternalFiber", "__file").
      * 
      * @default undefined
      */

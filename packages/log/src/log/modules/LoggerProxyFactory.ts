@@ -27,7 +27,7 @@ export namespace LoggerProxyFactory {
                 // try to define it here
                 if (!completeOptions[Configuration.constants.FRAMEWORK_NAME]) {
                     completeOptions[Configuration.constants.FRAMEWORK_NAME] =
-                        Configuration.resolveFrameworkName(this);
+                        Configuration.resolveFrameworkName(this, options);
                 }
                 const proxyObj = ofEntity(this, completeOptions);
 

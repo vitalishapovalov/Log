@@ -16,7 +16,7 @@ export namespace LogHandler {
         isSet?: boolean
     ) {
         return function (...innerArgs: any[]) {
-            const preferredOptions = Configuration.getPreferredOptions(this, propKey);
+            const preferredOptions = Configuration.getPreferredOptions(this, propKey, options) || options;
             const start = now();
 
             const trapResultValue = (() => {
