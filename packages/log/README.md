@@ -396,6 +396,7 @@ List of framework, which are detected and filtered by `Log`:
 * [React 0.14+](https://github.com/facebook/react/)
 * [Nest 6+](https://docs.nestjs.com/)
 * [Vue 2+](https://vuejs.org)
+* [Angular 7+](https://angular.io/)
 
 #### React
 
