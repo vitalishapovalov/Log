@@ -16,7 +16,7 @@ export const isCallable = (v: any): v is (...args: any[]) => any => {
 };
 
 export const isFunction = (v: any): v is Function => (
-    v && v instanceof Function && typeof v === "function" && toString(v) === "[object Function]"
+    !!v && v instanceof Function && typeof v === "function" && toString(v) === "[object Function]"
 );
 
 export const isArrowFunction = (v: any): boolean => {
@@ -25,15 +25,15 @@ export const isArrowFunction = (v: any): boolean => {
 };
 
 export const isArray = <T = any>(v: any): v is T[] => (
-    !!Array.isArray ? Array.isArray(v) : toString(v) === "[object Array]"
+    !!v && (!!Array.isArray ? Array.isArray(v) : toString(v) === "[object Array]")
 );
 
 export const isObject = <T = object>(v: any): v is T => (
-    v && typeof v === "object" || v === Object(v)
+    !!v && typeof v === "object" || v === Object(v)
 );
 
 export const isBoolean = (v: any): v is boolean => (
-    v && typeof v === "boolean" || (toString(v) === "[object Boolean]")
+    typeof v === "boolean" || (toString(v) === "[object Boolean]")
 );
 
 export const isUndefined = (v: any): v is undefined => (
@@ -70,4 +70,12 @@ export const isWeakSet = <T extends object>(v: any): v is WeakSet<T> => (
 
 export const isWeakMap = <T extends object, U = any>(v: any): v is WeakMap<T, U> => (
     v instanceof WeakMap
+);
+
+export const isPromise = <T = any>(v: any): v is Promise<T> => (
+    !!v &&
+    (v instanceof Promise
+    || (
+        (typeof v === "object" || typeof v === "function") && typeof v.then === "function"
+    ))
 );

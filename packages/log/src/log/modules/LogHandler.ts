@@ -1,4 +1,4 @@
-import { isFunction } from "@js-utilities/typecheck";
+import { isFunction, isPromise } from "@js-utilities/typecheck";
 
 import { LoggerOptions, MessageHandler, ProxyTrap } from "../types";
 import { getDesign, getTimeToExecMs, isOwnMethod as isOwnM, now } from "../utils";
@@ -16,7 +16,7 @@ export namespace LogHandler {
         isSet?: boolean
     ) {
         return function (...innerArgs: any[]) {
-            const preferredOptions = Configuration.getPreferredOptions(this, propKey);
+            const preferredOptions = Configuration.getPreferredOptions(this, propKey, options) || options;
             const start = now();
 
             const trapResultValue = (() => {
@@ -38,22 +38,32 @@ export namespace LogHandler {
                 return trapResultValue;
             }
 
-            const msgMethod = isSet ? ProxyTrap.SET : ProxyTrap.GET;
-            MessageLogger.logMessage(preferredOptions, timeToExecMs, MessageConstructor[msgMethod](
-                trapResultValue,
-                getDesign(this, propKey, innerArgs, trapResultValue, value),
-                innerArgs,
-                this,
-                propKey,
-                innerArgs[0]
-            ));
+            if (isPromise(trapResultValue)) {
+                trapResultValue
+                    .then((result: any) => logMessage(result, this))
+                    .catch(() => logMessage(Configuration.constants.PROMISE_FAILED, this));
+            } else {
+                logMessage(trapResultValue, this, timeToExecMs);
+            }
 
             return trapResultValue;
+
+            function logMessage(res: any, ctx: any, tte: number = getTimeToExecMs(start)) {
+                const msgMethod = isSet ? ProxyTrap.SET : ProxyTrap.GET;
+                MessageLogger.logMessage(preferredOptions, tte, MessageConstructor[msgMethod](
+                    res,
+                    getDesign(ctx, propKey, trapResultValue, res, value),
+                    innerArgs,
+                    ctx,
+                    propKey,
+                    innerArgs[0]
+                ));
+            }
         };
     }
 
     export function handleTrap(messageHandler: MessageHandler) {
-        return function <U extends object>(target: U, trapName: ProxyTrap, descriptor: PropertyDescriptor) {
+        return function <U extends object>(target: U, trapName: string, descriptor: PropertyDescriptor) {
             const value = descriptor.value;
 
             descriptor.value = function (...args: any[]) {

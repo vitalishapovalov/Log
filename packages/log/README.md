@@ -23,14 +23,23 @@ Can be used to inject [logger](#instance-logger), has `Light` and `Dark` predefi
 * [Usage](#usage)
   * [Decorator](#decorator)
     * [Class](#class)
-    * [Method/Get/Set](#method/get/set)
+    * [Method/Getter/Setter](#method/getter/setter)
     * [Property](#property)
     * [Parameter](#parameter)
   * [Function](#function)
     * [Objects](#objects)
-    * [Functions]($Functions)
+    * [Functions](#functions)
   * [Instance logger](#instance-logger)
+    * [Providing & Interface](#providing--interface)
+    * [Styling](#styling)
+    * [Logger usage](#logger-usage)
   * [Frameworks](#frameworks)
+    * [React](#react)
+    * [Nest](#nest)
+    * [Vue](#vue)
+    * [Angular](#angular)
+    * [Other](#other)
+    * [Framework config](#framework-config)
   * [Options](#options)
 * [Requirements](#requirements)
 
@@ -98,16 +107,16 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png" alt="console output" width="350" />
 
-Also, it can be used as a decorator, but without the `@Log` syntax:
+Also, it can be used as a decorator, but without decorators syntax:
 
 ```typescript
 import { Log } from "@js-utilities/log";
 
-// without options
-export default Log(class MyClass {});
-
 // with options
 export default Log({ provideLogger: true })(class MyClass {});
+
+// without options
+export default Log(class MyClass {});
 ```
 
 #### Method/Getter/Setter
@@ -177,6 +186,8 @@ class MyClass {
 Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/7.png" alt="console output" width="350" />
+
+If method return value type is `Promise`, logger will resolve it's value and log it, instead of promise object. Execution time will also be re-calculated.
 
 #### Property
 
@@ -357,7 +368,7 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/12.png" alt="console output" width="350" />
 
-#### Usage in TypeScript
+##### Usage in TypeScript
 
 In TypeScript, you should declare `logger` before using:
 
@@ -376,19 +387,189 @@ Usually, framework entities (e.g. React/Angular components) do a lot of work und
 
 Logging them will pollute console with unwanted information. But we don't know how to distinct tech. properties/hooks.
 
-So we need to explicitly define which properties should be logged and which should be logged specially.
+So we need to explicitly define which properties should be logged and which should be logged in a special way.
 
-For the moment, only [React](https://github.com/facebook/react/) is supported.
+Frameworks are detected on-the-fly, but can be forced by providing framework name in logger options. Even if provided with empty object.
+
+List of framework, which are detected and filtered by `Log`:
+
+* [React 0.14+](https://github.com/facebook/react/)
+* [Nest 6+](https://docs.nestjs.com/)
+* [Vue 2+](https://vuejs.org)
 
 #### React
 
-React configuration description:
+```typescript
+import * as React from "react";
+import { Log } from "@js-utilities/log";
+
+@Log({
+    react: { logHooks: true }
+})
+class MyComponent extends React.Component {
+    render() {
+        return null;
+    }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
+
+#### Nest
+
+##### On-class usage:
+
+```typescript
+import { Module } from '@nestjs/common';
+import { Log } from "@js-utilities/log";
+
+@Log({ nest: { logHooks: true } })
+@Module({
+  imports: [],
+})
+export class AppModule {
+  configure() {
+    return {};
+  }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/14.png" alt="console output" width="350" />
+
+##### HTTP methods
+
+```typescript
+import { Controller, Get } from '@nestjs/common';
+import { Log } from "@js-utilities/log";
+import { AppService } from './app.service';
+
+@Controller()
+export class AppController {
+  constructor(private readonly appService: AppService) {}
+
+  @Get("hello")
+  @Log({
+    logTimeStamp: true,
+    logExecutionTime: true,
+  })
+  async getHello(): Promise<string> {
+    await this.appService.asyncAction();
+    return this.appService.getHello();
+  }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/15.png" alt="console output" width="350" />
+
+#### Vue
+
+##### On-object usage
+
+It is important to define `vue` in provided logger options when using with `log` function, at least with empty object as a value.
+It's needed to distinct common objects from vue components.
+
+```vue
+<script>
+import { log } from "@js-utilities/log";
+
+export default log({
+  name: 'HelloWorld',
+  props: { msg: String }
+}, {
+  vue: { logHooks: true }
+});
+</script>
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/16.png" alt="console output" width="350" />
+
+##### On-class usage
+
+When using with `vue-class-component` lib, make sure you've imported `reflect-metadata` before your main `App` module.
+
+```vue
+<script lang="ts">
+import { Log } from '@js-utilities/log';
+import { Component, Vue } from 'vue-property-decorator';
+
+@Log
+@Component
+export default class HelloWorld extends Vue {
+
+  @Log
+  protected mounted() {
+    this.method();
+  }
+
+  private method() {
+    return 'Mounted!';
+  }
+}
+</script>
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/17.png" alt="console output" width="400" />
+
+#### Angular
+
+Ensure that you have `reflect-metadata` polyfill and `"emitDecoratorMetadata": true` set in `tsconfig.json`.
+
+```typescript
+import { Component } from '@angular/core';
+import { Log } from "@js-utilities/log";
+
+@Log({
+  angular: { logHooks: true }
+})
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  prop: string;
+  ngOnInit() {
+    this.prop = "value";
+  }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/18.png" alt="console output" width="350" />
+
+#### Other
+
+To avoid console polluting with other frameworks / libraries, disable all props logging and enable only wanted ones explicitly:
+
+```typescript
+import { Log } from "@js-utilities/log";
+
+@Log({ logProperties: ["myProp"] })
+class MyClass extends FrameworkEntity {
+    myProp = "value";
+}
+```
+
+#### Framework config
+
+Framework configuration description:
 
 ```typescript
 type FrameworkConfig = {
     
     /**
-     * Technical properties to log (e.g. "updater", "_reactInternalFiber").
+     * Technical properties to log (e.g. "updater", "_reactInternalFiber", "__file").
      * 
      * @default undefined
      */
@@ -409,7 +590,7 @@ type FrameworkConfig = {
     logProps?: boolean | string[];
     
     /**
-     * Hooks to log (e.g. "render", "shouldComponentUpdate").
+     * Hooks to log (e.g. "render", "shouldComponentUpdate", "onModuleInit").
      * 
      * @default undefined
      */
@@ -430,51 +611,18 @@ type FrameworkConfig = {
     logContext?: boolean | string[];
     
     /**
-     * Other react properties to log (e.g. "setState", "forceUpdate").
+     * Other framework properties to log (e.g. "setState", "forceUpdate", "intercept").
      * 
      * @default undefined
      */
     logOther?: boolean | string[];
     
     /**
-     * Default log depth for react properties.
+     * Default log depth for framework properties.
      * 
      * @default 1
      */
     argsLogDepth?: number;
-}
-```
-
-Example:
-
-```typescript
-import * as React from "react";
-import { Log } from "@js-utilities/log";
-
-@Log({
-    react: { logHooks: true }
-})
-class MyComponent extends React.Component {
-    render() {
-        return null;
-    }
-}
-```
-
-Console output:
-
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
-
-#### Other
-
-To avoid console polluting with other frameworks / libraries, disable all props logging and enable only wanted ones explicitly:
-
-```typescript
-import { Log } from "@js-utilities/log";
-
-@Log({ logProperties: ["myProp"] })
-class MyClass extends FrameworkEntity {
-    myProp = "value";
 }
 ```
 
@@ -582,13 +730,6 @@ type LoggerOptions = {
      * @default false
      */
     logExecutionTime?: boolean;
-
-    /**
-     * Log subclasses of the class containing @Log declaration.
-     *
-     * @default false
-     */
-    logSubclass?: boolean;
 
     /**
      * Add timestamp for each log message.

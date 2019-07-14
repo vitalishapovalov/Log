@@ -105,13 +105,6 @@ export type LoggerOptions = {
     logExecutionTime?: boolean;
 
     /**
-     * Log subclasses of the class containing @Log declaration.
-     *
-     * @default false
-     */
-    logSubclass?: boolean;
-
-    /**
      * Add timestamp for each log message.
      *
      * @default true
@@ -238,7 +231,7 @@ export type FrameworkConfig = {
 };
 
 export type FrameworkInterface = Readonly<{
-    [Key in Configuration.FrameworkConfigDynamicKey]: readonly string[];
+    [Key in Configuration.FrameworkConfigDynamicKey]: readonly PropertyKey[];
 }> & {
     includes(str: PropertyKey): boolean;
     isHook(str: PropertyKey): boolean;

@@ -1,7 +1,7 @@
-import { isBoolean, isFunction, isUndefined, isArray } from "@js-utilities/typecheck";
+import { isArray, isBoolean, isFunction, isString, isUndefined } from "@js-utilities/typecheck";
 
-import { Constructor, DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
-import { getUnderlyingPrototype } from "../../utils";
+import { DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
+import { StringDecorator } from "../StringDecorator";
 import * as _frameworks from "./frameworks";
 import * as _constants from "./constants";
 
@@ -19,13 +19,18 @@ export namespace Configuration {
 
     export import resolveFrameworkName = _frameworks.resolveFrameworkName;
 
-    export function getPreferredOptions(target: object, prop: PropertyKey): LoggerOptions {
-        const metadataOptions = Reflect.getMetadata(constants.OPTIONS, target, prop as string | symbol);
+    export function getPreferredOptions(
+        target: object,
+        prop: PropertyKey,
+        alterOptions: LoggerOptions = {}
+    ): LoggerOptions {
+        const metadataOptions = Reflect.getMetadata(constants.OPTIONS, target, prop as string | symbol)
+            || alterOptions || {};
         // if we have target[OPTIONS] defined, we should use'em
         // as general options, and only use defined options from metadataOptions
         // otherwise, fill metadata with missing default options
         const options = Boolean(target[constants.OPTIONS])
-            ? { ...target[constants.OPTIONS], ...(metadataOptions || {}) }
+            ? { ...target[constants.OPTIONS], ...metadataOptions }
             : getMergedWithDefaults(metadataOptions);
 
         // case when parent (class) has @Log decorator with defined theme (or not defined),
@@ -34,6 +39,16 @@ export namespace Configuration {
         const shouldUseParentTheme = !((metadataOptions || {}).theme)
             && target[constants.OPTIONS] && target[constants.OPTIONS][constants.STRING_DECORATOR];
         const themeProvider = shouldUseParentTheme ? target[constants.OPTIONS] : metadataOptions;
+
+        // very special case. it means that something went wrong, and we've lost metadata
+        // and target's data. instead of failing, create default handlers
+        if (!themeProvider) {
+            const optsWithTheme = { ...options, theme: constants.DEFAULT_THEME };
+            return {
+                ...optsWithTheme,
+                [constants.STRING_DECORATOR]: new StringDecorator(optsWithTheme),
+            };
+        }
 
         return {
             ...options,
@@ -71,6 +86,11 @@ export namespace Configuration {
             && options.logPropertiesFull.includes(propKey)) return true;
 
         if (isFrameworkProperty(options, propKey)) {
+            // frameworks are using different approaches to define hooks/tech props
+            // on objects, some approaches are producing additional logs,
+            // we should eliminate them
+            // 1. log only hooks access, ignore set and getOwnPropertyDescriptor etc.
+            if (proxyTrap !== ProxyTrap.GET) return false;
             return isShouldLogFrameworkProperty(options, propKey, isOwnMethod);
         }
 
@@ -103,16 +123,11 @@ export namespace Configuration {
     }
 
     export function getPredictedOptionsName(target: any): string {
-        if (isFunction(target)) return `${target.name}`;
+        if (
+            isFunction(target) ||
+            (Boolean(target) && isString(target.name))
+        ) return `${target.name}`;
         return null;
-    }
-
-    export function isLoggerSubclass(context: object, constructor: Constructor): boolean {
-        const underlyingProtoConstructor = getUnderlyingPrototype(context).constructor;
-
-        return underlyingProtoConstructor !== constructor
-            // avoid cases when decorated class extends native constructors
-            && !(underlyingProtoConstructor === Object);
     }
 
     export function isProperty(...options: LoggerOptions[]): boolean {
@@ -148,13 +163,15 @@ export namespace Configuration {
     ): boolean {
         const frameworkName = options[constants.FRAMEWORK_NAME];
         const frameworkConfig = _frameworks.FRAMEWORKS[frameworkName];
-        for (const k of Reflect.ownKeys(options[frameworkName])) {
+
+        for (const k of Object.getOwnPropertyNames(options[frameworkName])) {
             if (!frameworkConfig[k] || !frameworkConfig[k].includes(propKey)) continue;
-            return isLogEnabledForPropKey(options.react[k], propKey) && (
+            return isLogEnabledForPropKey(options[frameworkName][k], propKey) && (
                 isOwnMethod
                 || frameworkConfig.isLogDesirable(propKey)
             );
         }
+
         return false;
     }
 

@@ -17,16 +17,18 @@ export namespace LoggerProxyFactory {
                 super(...args);
                 const timeToExecMs = getTimeToExecMs(start);
 
-                const isLoggerSubclass = Configuration.isLoggerSubclass(this, constructor);
-                if (isLoggerSubclass && !options.logSubclass) return this;
-
                 const completeOptions: LoggerOptions = {
                     ...getOptionsWithFallbackName(this, options),
-                    [Configuration.constants.IS_SUBCLASS]: isLoggerSubclass,
-                    // re-define framework name due to impossibility of
-                    // detecting it correctly for class decorators
-                    [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(this),
+                    // this feature is used to disable logging in derived classes,
+                    // but currently disabled and should be re-implemented
+                    [Configuration.constants.IS_SUBCLASS]: false,
                 };
+                // if no framework detected during initialization,
+                // try to define it here
+                if (!completeOptions[Configuration.constants.FRAMEWORK_NAME]) {
+                    completeOptions[Configuration.constants.FRAMEWORK_NAME] =
+                        Configuration.resolveFrameworkName(this, options);
+                }
                 const proxyObj = ofEntity(this, completeOptions);
 
                 const logEnabled =
@@ -130,8 +132,10 @@ export namespace LoggerProxyFactory {
     }
 
     function getOptionsWithFallbackName(target: object, options: LoggerOptions): LoggerOptions {
-        // if no name provided, try to use existing options name or constructor name
-        const fallbackName = target[Configuration.constants.OPTIONS] || (target && target.constructor) || {};
+        // if no name provided, try to use an existing options name or a constructor name
+        const fallbackName = target[Configuration.constants.OPTIONS]
+            || (target && target.constructor)
+            || {};
         return {
             ...options,
             name: options.name || fallbackName.name,
@@ -139,7 +143,7 @@ export namespace LoggerProxyFactory {
     }
 
     function applyOptionsMetadata(target: object, property: PropertyKey, options: LoggerOptions): void {
-        // define options as metadata on targets property key,
+        // define options as metadata on target's property key
         // to be able to retrieve and use it during logging
         Reflect.defineMetadata(
             Configuration.constants.OPTIONS,

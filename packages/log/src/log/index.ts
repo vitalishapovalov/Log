@@ -45,7 +45,10 @@ export function Log(
             ...optionsWithDefaults,
             name: optionsWithDefaults.name || Configuration.getPredictedOptionsName(target),
             [Configuration.constants.DECORATOR_TYPE]: decoratorType,
-            [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(innerTarget),
+            [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(
+                innerTarget,
+                options
+            ),
             [Configuration.constants.STRING_DECORATOR]: new StringDecorator(optionsWithDefaults),
         };
 
@@ -105,7 +108,10 @@ export function log<T = Function | object>(target: T, options: LoggerOptions | s
         // special minimum args log depth for function entities
         name: optionsWithDefaults.name || Configuration.getPredictedOptionsName(target),
         [Configuration.constants.DECORATOR_TYPE]: DecoratorType.UNKNOWN,
-        [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(target as unknown as object),
+        [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(
+            target as unknown as object,
+            resolvedOptions
+        ),
         [Configuration.constants.STRING_DECORATOR]: new StringDecorator(optionsWithDefaults),
     });
 }

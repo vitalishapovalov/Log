@@ -13,7 +13,8 @@ import {
     isNull,
     isUndefined,
     isWeakMap,
-    isWeakSet
+    isWeakSet,
+    isPromise,
 } from "../src";
 
 describe("typecheck test", () => {
@@ -210,5 +211,18 @@ describe("typecheck test", () => {
         expect(isWeakSet({ })).toBeFalsy();
         expect(isWeakSet(null)).toBeFalsy();
         expect(isWeakSet(undefined)).toBeFalsy();
+    });
+
+    it("should correctly check that value is a Promise", () => {
+        expect(isPromise(new Promise(() => {}))).toBeTruthy();
+        expect(isPromise({ then: function () {} })).toBeTruthy();
+
+        expect(isPromise(1)).toBeFalsy();
+        expect(isPromise(new Set())).toBeFalsy();
+        expect(isPromise("")).toBeFalsy();
+        expect(isPromise([])).toBeFalsy();
+        expect(isPromise({ })).toBeFalsy();
+        expect(isPromise(null)).toBeFalsy();
+        expect(isPromise(undefined)).toBeFalsy();
     });
 });
