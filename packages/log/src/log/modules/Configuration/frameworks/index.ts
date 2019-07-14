@@ -4,6 +4,7 @@ import { SupportedFrameworks } from "./Framework";
 import ReactJS from "./React";
 import NestJS from "./Nest";
 import VueJS from "./Vue";
+import Angular from "./Angular";
 
 export {
     SupportedFrameworks,
@@ -29,6 +30,12 @@ export const FRAMEWORKS: { [F in SupportedFrameworks]: FrameworkInterface; } = {
      * https://vuejs.org
      */
     [SupportedFrameworks.VUE]: VueJS,
+
+    /**
+     * Angular
+     * https://angular.io/
+     */
+    [SupportedFrameworks.ANGULAR]: Angular,
 };
 
 export const resolveFrameworkName = (target: object, options: LoggerOptions): SupportedFrameworks => {

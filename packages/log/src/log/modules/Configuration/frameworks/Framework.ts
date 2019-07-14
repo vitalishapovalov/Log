@@ -4,6 +4,7 @@ export enum SupportedFrameworks {
     REACT = "react",
     NEST = "nest",
     VUE = "vue",
+    ANGULAR = "angular",
 }
 
 export enum FrameworkConfigStaticKey {

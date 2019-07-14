@@ -28,17 +28,18 @@ Can be used to inject [logger](#instance-logger), has `Light` and `Dark` predefi
     * [Parameter](#parameter)
   * [Function](#function)
     * [Objects](#objects)
-    * [Functions]($Functions)
+    * [Functions](#functions)
   * [Instance logger](#instance-logger)
     * [Providing & Interface](#providing--interface)
     * [Styling](#styling)
     * [Logger usage](#logger-usage)
   * [Frameworks](#frameworks)
-    * [React]()
-    * [Nest]()
-    * [Vue]()
-    * [Other]()
-    * [Framework config]()
+    * [React](#react)
+    * [Nest](#nest)
+    * [Vue](#vue)
+    * [Angular](#angular)
+    * [Other](#other)
+    * [Framework config](#framework-config)
   * [Options](#options)
 * [Requirements](#requirements)
 
@@ -396,7 +397,7 @@ List of framework, which are detected and filtered by `Log`:
 * [Nest 6+](https://docs.nestjs.com/)
 * [Vue 2+](https://vuejs.org)
 
-#### React:
+#### React
 
 ```typescript
 import * as React from "react";
@@ -416,7 +417,7 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
 
-#### Nest:
+#### Nest
 
 ##### On-class usage:
 
@@ -466,7 +467,7 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/15.png" alt="console output" width="350" />
 
-#### Vue:
+#### Vue
 
 ##### On-object usage
 
@@ -519,7 +520,35 @@ Console output:
 
 <img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/17.png" alt="console output" width="400" />
 
-#### Other:
+#### Angular
+
+Ensure that you have `reflect-metadata` polyfill and `"emitDecoratorMetadata": true` set in `tsconfig.json`.
+
+```typescript
+import { Component } from '@angular/core';
+import { Log } from "@js-utilities/log";
+
+@Log({
+  angular: { logHooks: true }
+})
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  prop: string;
+  ngOnInit() {
+    this.prop = "value";
+  }
+}
+```
+
+Console output:
+
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/18.png" alt="console output" width="350" />
+
+#### Other
 
 To avoid console polluting with other frameworks / libraries, disable all props logging and enable only wanted ones explicitly:
 
@@ -582,14 +611,14 @@ type FrameworkConfig = {
     logContext?: boolean | string[];
     
     /**
-     * Other react properties to log (e.g. "setState", "forceUpdate", "intercept").
+     * Other framework properties to log (e.g. "setState", "forceUpdate", "intercept").
      * 
      * @default undefined
      */
     logOther?: boolean | string[];
     
     /**
-     * Default log depth for react properties.
+     * Default log depth for framework properties.
      * 
      * @default 1
      */
