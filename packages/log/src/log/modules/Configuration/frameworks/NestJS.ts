@@ -78,4 +78,4 @@ export default new class extends Framework {
             "canActivate",
         ].includes(str as string);
     }
-}
+};

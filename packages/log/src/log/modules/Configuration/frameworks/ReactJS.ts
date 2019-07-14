@@ -88,4 +88,4 @@ export default new class extends Framework {
             "getDerivedStateFromError",
         ].includes(str as string);
     }
-}
+};

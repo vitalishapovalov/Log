@@ -47,7 +47,7 @@ export function Log(
             [Configuration.constants.DECORATOR_TYPE]: decoratorType,
             [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(
                 innerTarget,
-                options,
+                options
             ),
             [Configuration.constants.STRING_DECORATOR]: new StringDecorator(optionsWithDefaults),
         };
@@ -110,7 +110,7 @@ export function log<T = Function | object>(target: T, options: LoggerOptions | s
         [Configuration.constants.DECORATOR_TYPE]: DecoratorType.UNKNOWN,
         [Configuration.constants.FRAMEWORK_NAME]: Configuration.resolveFrameworkName(
             target as unknown as object,
-            resolvedOptions,
+            resolvedOptions
         ),
         [Configuration.constants.STRING_DECORATOR]: new StringDecorator(optionsWithDefaults),
     });

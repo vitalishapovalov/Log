@@ -66,4 +66,4 @@ export default new class extends Framework {
             "transform",
         ].includes(str as string);
     }
-}
+};

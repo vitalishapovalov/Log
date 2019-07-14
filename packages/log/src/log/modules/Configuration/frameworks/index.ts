@@ -1,9 +1,9 @@
 import { FrameworkInterface, LoggerOptions } from "../../../types";
 import { SupportedFrameworks } from "./Framework";
 
-import ReactJS from "./React";
-import NestJS from "./Nest";
-import VueJS from "./Vue";
+import ReactJS from "./ReactJS";
+import NestJS from "./NestJS";
+import VueJS from "./VueJS";
 import Angular from "./Angular";
 
 export {

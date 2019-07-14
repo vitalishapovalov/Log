@@ -167,4 +167,4 @@ export default new class extends Framework {
             "errorCaptured",
         ].includes(str as string);
     }
-}
+};

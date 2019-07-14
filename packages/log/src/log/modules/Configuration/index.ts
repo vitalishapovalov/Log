@@ -40,21 +40,21 @@ export namespace Configuration {
             && target[constants.OPTIONS] && target[constants.OPTIONS][constants.STRING_DECORATOR];
         const themeProvider = shouldUseParentTheme ? target[constants.OPTIONS] : metadataOptions;
 
-        if (Boolean(themeProvider)) {
-            return {
-                ...options,
-                theme: themeProvider.theme,
-                [constants.STRING_DECORATOR]: themeProvider[constants.STRING_DECORATOR],
-            };
         // very special case. it means that something went wrong, and we've lost metadata
         // and target's data. instead of failing, create default handlers
-        } else {
+        if (!themeProvider) {
             const optsWithTheme = { ...options, theme: constants.DEFAULT_THEME };
             return {
                 ...optsWithTheme,
                 [constants.STRING_DECORATOR]: new StringDecorator(optsWithTheme),
             };
         }
+
+        return {
+            ...options,
+            theme: themeProvider.theme,
+            [constants.STRING_DECORATOR]: themeProvider[constants.STRING_DECORATOR],
+        };
     }
 
     export function getMergedWithDefaults(options: LoggerOptions = {}): LoggerOptions {
