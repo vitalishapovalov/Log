@@ -11,6 +11,7 @@ export default new class extends Framework {
         "__VUE_DEVTOOLS_UID__",
         "_isBeingDestroyed",
         "_hasHookEvent",
+        "_hasMetaInfo",
         "_isMounted",
         "_uid",
         "__patch__",
@@ -26,6 +27,7 @@ export default new class extends Framework {
         "_data",
         "_isDestroyed",
         "_isVue",
+        "_name",
     ]);
 
     [FrameworkConfigDynamicKey.HOOKS] = Object.freeze([
@@ -39,6 +41,22 @@ export default new class extends Framework {
         "destroyed",
         "errorCaptured",
         "render",
+        "beforeRouteEnter",
+        "beforeRouteLeave",
+        "asyncData",
+        "fetch",
+        "layout",
+        "scrollToTop",
+        "asyncData",
+        "head",
+        "key",
+        "layout",
+        "loading",
+        "middleware",
+        "scrollToTop",
+        "transition",
+        "validate",
+        "watchQuery",
     ]);
 
     [FrameworkConfigDynamicKey.STATE] = Object.freeze([
@@ -116,11 +134,19 @@ export default new class extends Framework {
     ]);
 
     isFrameworkComponent(context: object): boolean {
-        if (!context) return false;
-        if ("$data" in context && "_init" in context && "$ssrContext" in context) return true;
-        if (!(context as any).prototype) return false;
+        if (!context) {
+            return false;
+        }
+        if ("$data" in context && "_init" in context && "$ssrContext" in context) {
+            return true;
+        }
+        if (!(context as any).prototype) {
+            return false;
+        }
         const proto: any = Reflect.getPrototypeOf((context as any).prototype);
-        if (!proto) return false;
+        if (!proto) {
+            return false;
+        }
         return proto.__patch__ && proto.$nextTick && proto._init;
     }
 

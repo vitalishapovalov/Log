@@ -1,6 +1,7 @@
 import { isArray, isBoolean, isFunction, isString, isUndefined } from "@js-utilities/typecheck";
 
 import { DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
+import { StringDecorator } from "../StringDecorator";
 import * as _frameworks from "./frameworks";
 import * as _constants from "./constants";
 
@@ -39,11 +40,21 @@ export namespace Configuration {
             && target[constants.OPTIONS] && target[constants.OPTIONS][constants.STRING_DECORATOR];
         const themeProvider = shouldUseParentTheme ? target[constants.OPTIONS] : metadataOptions;
 
-        return {
-            ...options,
-            theme: themeProvider.theme,
-            [constants.STRING_DECORATOR]: themeProvider[constants.STRING_DECORATOR],
-        };
+        if (Boolean(themeProvider)) {
+            return {
+                ...options,
+                theme: themeProvider.theme,
+                [constants.STRING_DECORATOR]: themeProvider[constants.STRING_DECORATOR],
+            };
+        // very special case. it means that something went wrong, and we've lost metadata
+        // and target's data. instead of failing, create default handlers
+        } else {
+            const optsWithTheme = { ...options, theme: constants.DEFAULT_THEME };
+            return {
+                ...optsWithTheme,
+                [constants.STRING_DECORATOR]: new StringDecorator(optsWithTheme),
+            };
+        }
     }
 
     export function getMergedWithDefaults(options: LoggerOptions = {}): LoggerOptions {
@@ -78,8 +89,7 @@ export namespace Configuration {
             // frameworks are using different approaches to define hooks/tech props
             // on objects, some approaches are producing additional logs,
             // we should eliminate them
-            // 1. log only access to hooks, ignore set and getOwnPropertyDescriptor etc.
-            // 2. hooks should be functions, ignore otherwise
+            // 1. log only hooks access, ignore set and getOwnPropertyDescriptor etc.
             if (proxyTrap !== ProxyTrap.GET) return false;
             return isShouldLogFrameworkProperty(options, propKey, isOwnMethod);
         }
@@ -153,6 +163,7 @@ export namespace Configuration {
     ): boolean {
         const frameworkName = options[constants.FRAMEWORK_NAME];
         const frameworkConfig = _frameworks.FRAMEWORKS[frameworkName];
+
         for (const k of Object.getOwnPropertyNames(options[frameworkName])) {
             if (!frameworkConfig[k] || !frameworkConfig[k].includes(propKey)) continue;
             return isLogEnabledForPropKey(options[frameworkName][k], propKey) && (
@@ -160,6 +171,7 @@ export namespace Configuration {
                 || frameworkConfig.isLogDesirable(propKey)
             );
         }
+
         return false;
     }
 
