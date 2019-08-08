@@ -1,4 +1,4 @@
-import { Design, Message } from "../../../types";
+import { Design, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -9,19 +9,18 @@ export default function (
     property: PropertyKey,
     attributes: PropertyDescriptor
 ): string[] {
-    const SD = Configuration
-        .getPreferredOptions(target, property)[Configuration.constants.STRING_DECORATOR];
-    const msg: Message = [];
+    const options = Configuration.getPreferredOptions(target, property);
+    const SD = options[Configuration.constants.STRING_DECORATOR];
 
-    msg.push(
+    const msg: Message = [
         SD.getAssembledField(
             `Call ${SD.methodName("defineProperty")} ${SD.fieldLabel("on")}`,
             SD.getLoggerNameString(target)
         ),
         SD.getAssembledField("Property key", SD.propertyName(String(property))),
         SD.getAssembledField("Property descriptor", SD.logObjectProperties(attributes)),
-        SD.getAssembledField("Call result", SD.boolean(result))
-    );
+        SD.getAssembledField("Call result", SD.boolean(result)),
+    ];
 
     msg.extensibleObjects = [
         {
@@ -29,6 +28,16 @@ export default function (
             value: attributes,
         },
     ];
+
+    msg.logData = {
+        proxyTrap: ProxyTrap.DEFINE_PROPERTY,
+        propertyKey: property,
+        target,
+        trapResult: result,
+        design,
+        options,
+        descriptor: attributes,
+    };
 
     return msg;
 }

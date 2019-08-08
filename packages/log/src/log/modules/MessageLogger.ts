@@ -1,4 +1,4 @@
-import { isString } from "@js-utilities/typecheck";
+import { isCallable, isString } from "@js-utilities/typecheck";
 
 import { InstanceMessageLogger, LoggerOptions, Message } from "../types";
 import { isBrowser, isFirefox, isNode, isSafari } from "../utils";
@@ -24,7 +24,20 @@ export namespace MessageLogger {
         // newlines as message separators in node console
         if (isNode()) msg = "\n" + msg;
 
-        console[options.consoleMethod](applyOptionalStyles(msg, SD));
+        msg = applyOptionalStyles(msg, SD);
+
+        // interceptor call, if available
+        if (isCallable(options.logInterceptor)) {
+            const interceptResult = options.logInterceptor({
+                ...message.logData,
+                message: extractValueFromDecoratedString(msg),
+                decoratedMessage: msg,
+            });
+            // means that log to console should be prevented
+            if (!interceptResult) return;
+        }
+
+        console[options.consoleMethod](msg);
 
         if (options.logExtensibleObjects && message.extensibleObjects) {
             console.log(...message.extensibleObjects.reduce(

@@ -1,4 +1,4 @@
-import { Design, LoggerOptions, Message } from "../../../types";
+import { Design, LoggerOptions, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -11,15 +11,13 @@ export default function (
 ): string[] {
     const options: LoggerOptions = target[Configuration.constants.OPTIONS];
     const SD = options[Configuration.constants.STRING_DECORATOR];
-    const message: Message = [];
 
-    message.extensibleObjects = [];
-
-    message.push(
+    const message: Message = [
         SD.getAssembledField("Call function", `${
             SD.methodName(String(options.name))}${SD.paramsString(design)}`),
-        SD.getAssembledField("Call context", SD.logObjectProperties(thisArg))
-    );
+        SD.getAssembledField("Call context", SD.logObjectProperties(thisArg)),
+    ];
+    message.extensibleObjects = [];
 
     // log args of args obj exists, even if it has zero length
     if (args) {
@@ -45,6 +43,16 @@ export default function (
             value: thisArg,
         });
     }
+
+    message.logData = {
+        proxyTrap: ProxyTrap.APPLY,
+        target,
+        trapResult: result,
+        design,
+        thisArg,
+        args,
+        options,
+    };
 
     return message;
 }

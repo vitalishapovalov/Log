@@ -1,6 +1,6 @@
 import { isFunction, isSymbol } from "@js-utilities/typecheck";
 
-import { DecoratorType, Design, DesignType, Message } from "../../../types";
+import { DecoratorType, Design, DesignType, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -110,6 +110,16 @@ export default function (
             SD.unknownType(result, true, 1)
         ));
     }
+
+    message.logData = {
+        proxyTrap: ProxyTrap.GET,
+        propertyKey: property,
+        target,
+        trapResult: result,
+        design,
+        options: preferredOptions,
+        args: innerArgs,
+    };
 
     return message;
 }

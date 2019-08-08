@@ -650,14 +650,6 @@ type LoggerOptions = {
     logName?: boolean;
 
     /**
-     * If provided, will be executed on each log.
-     * If condition isn't met, log won't be executed.
-     *
-     * @default undefined
-     */
-    condition?: (propKey: PropertyKey) => boolean;
-
-    /**
      * Console method which will be used to output messages.
      *
      * @default "log"
@@ -685,6 +677,16 @@ type LoggerOptions = {
      * @default { logTimeStamp: true, logSuffix: true }
      */
     loggerOptions?: InstanceMessageLoggerOptions;
+    
+    /**
+     * Will be invoked on every log, right before writing to console.
+     * Can prevent log by returning "false".
+     *
+     * @param {LogData} logData   collected data of proxy trap
+     *
+     * @return {Boolean} log decorated message to console or no
+     */
+    logInterceptor?(logData: LogData): boolean;
 
     /**
      * Flag for enabling/disabling logging.

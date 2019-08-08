@@ -21,7 +21,7 @@ export namespace Configuration {
 
     export function getPreferredOptions(
         target: object,
-        prop: PropertyKey,
+        prop: PropertyKey = "",
         alterOptions: LoggerOptions = {}
     ): LoggerOptions {
         const metadataOptions = Reflect.getMetadata(constants.OPTIONS, target, prop as string | symbol)
@@ -117,8 +117,7 @@ export namespace Configuration {
     export function isLogDisabledByDefault(options: LoggerOptions, propKey: PropertyKey): boolean {
         return (
             !options.log ||
-            constants.TECH_PARAMETERS.includes(propKey) ||
-            (isFunction(options.condition) && options.condition(propKey))
+            constants.TECH_PARAMETERS.includes(propKey)
         );
     }
 

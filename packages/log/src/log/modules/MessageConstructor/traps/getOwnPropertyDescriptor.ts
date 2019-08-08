@@ -1,4 +1,4 @@
-import { Design, Message } from "../../../types";
+import { Design, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -8,16 +8,17 @@ export default function (
     target: object,
     property: PropertyKey
 ): string[] {
-    const SD = Configuration.getPreferredOptions(target, property)[Configuration.constants.STRING_DECORATOR];
-    const msg: Message = [];
+    const options = Configuration.getPreferredOptions(target, property);
+    const SD = options[Configuration.constants.STRING_DECORATOR];
 
-    msg.push(
+    const msg: Message = [
         SD.getAssembledField(
             `Call ${SD.methodName("getOwnPropertyDescriptor")} ${SD.fieldLabel("on")}`,
             `${SD.string(String(property))}`
         ),
-        SD.getAssembledField("Retrieved descriptor", SD.logObjectProperties(result))
-    );
+        SD.getAssembledField("Retrieved descriptor", SD.logObjectProperties(result)),
+    ];
+
 
     msg.extensibleObjects = [
         {
@@ -25,6 +26,16 @@ export default function (
             value: result,
         },
     ];
+
+    msg.logData = {
+        proxyTrap: ProxyTrap.GET_OWN_PROPERTY_DESCRIPTOR,
+        propertyKey: property,
+        target,
+        trapResult: result,
+        design,
+        options,
+        descriptor: result,
+    };
 
     return msg;
 }

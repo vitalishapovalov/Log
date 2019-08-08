@@ -1,4 +1,4 @@
-import { Design, Message } from "../../../types";
+import { Design, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -7,16 +7,16 @@ export default function (
     innerArgs: any[],
     target: object
 ): string[] {
-    const SD = target[Configuration.constants.OPTIONS][Configuration.constants.STRING_DECORATOR];
-    const msg: Message = [];
+    const options = Configuration.getPreferredOptions(target);
+    const SD = options[Configuration.constants.STRING_DECORATOR];
 
-    msg.push(
+    const msg: Message = [
         SD.getAssembledField(
             `Call ${SD.methodName("getPrototypeOf")} ${SD.fieldLabel("of")}`,
             SD.getLoggerNameString(target)
         ),
-        SD.getAssembledField("Retrieved prototype", SD.unknownType(result, true))
-    );
+        SD.getAssembledField("Retrieved prototype", SD.unknownType(result, true)),
+    ];
 
     msg.extensibleObjects = [
         {
@@ -24,6 +24,14 @@ export default function (
             value: result,
         },
     ];
+
+    msg.logData = {
+        proxyTrap: ProxyTrap.GET_PROTOTYPE_OF,
+        target,
+        trapResult: result,
+        design,
+        options,
+    };
 
     return msg;
 }

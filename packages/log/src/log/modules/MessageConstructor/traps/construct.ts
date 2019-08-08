@@ -1,4 +1,4 @@
-import { Design, Message } from "../../../types";
+import { Design, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -9,14 +9,15 @@ export default function (
     args?: any,
     newTarget?: any
 ): string[] {
-    const SD = Configuration
-        .getPreferredOptions(target, "constructor")[Configuration.constants.STRING_DECORATOR];
-    const msg: Message = [];
+    const options = Configuration.getPreferredOptions(target, "constructor");
+    const SD = options[Configuration.constants.STRING_DECORATOR];
 
-    msg.push(SD.getAssembledField(
-        `Construct new ${SD.fieldLabel("instance")}`,
-        SD.objectLike(result, true)
-    ));
+    const msg: Message = [
+        SD.getAssembledField(
+            `Construct new ${SD.fieldLabel("instance")}`,
+            SD.objectLike(result, true)
+        ),
+    ];
 
     if (innerArgs && innerArgs.length) {
         msg.push(SD.getAssembledField(
@@ -31,6 +32,15 @@ export default function (
             value: result,
         },
     ];
+
+    msg.logData = {
+        proxyTrap: ProxyTrap.CONSTRUCT,
+        target,
+        trapResult: result,
+        design,
+        args,
+        options,
+    };
 
     return msg;
 }

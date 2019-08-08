@@ -1,3 +1,6 @@
+import { Design } from "./Design";
+import { LoggerOptions } from "./Configuration";
+
 export const enum ProxyTrap {
     CONSTRUCT = "construct",
     GET_PROTOTYPE_OF = "getPrototypeOf",
@@ -13,3 +16,18 @@ export const enum ProxyTrap {
     OWN_KEYS = "ownKeys",
     APPLY = "apply",
 }
+
+export type LogData = {
+    proxyTrap: ProxyTrap;
+    propertyKey?: PropertyKey;
+    trapResult?: any;
+    target?: any;
+    options?: LoggerOptions;
+    message?: string;
+    decoratedMessage?: string;
+    valueToSet?: any;
+    descriptor?: PropertyDescriptor;
+    thisArg?: any;
+    args?: any[];
+    design?: Design;
+};

@@ -1,4 +1,4 @@
-import { Design } from "../../../types";
+import { Design, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -7,12 +7,24 @@ export default function (
     innerArgs: any[],
     target: object
 ): string[] {
-    const SD = target[Configuration.constants.OPTIONS][Configuration.constants.STRING_DECORATOR];
-    return [
+    const options = Configuration.getPreferredOptions(target);
+    const SD = options[Configuration.constants.STRING_DECORATOR];
+
+    const msg: Message = [
         SD.getAssembledField(
             `Check ${SD.methodName("isExtensible")} ${SD.fieldLabel("of")}`,
             SD.getLoggerNameString(target)
         ),
         SD.getAssembledField("Result", SD.boolean(result)),
     ];
+
+    msg.logData = {
+        proxyTrap: ProxyTrap.IS_EXTENSIBLE,
+        target,
+        trapResult: result,
+        design,
+        options,
+    };
+
+    return msg;
 }

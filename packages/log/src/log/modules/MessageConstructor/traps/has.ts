@@ -1,4 +1,4 @@
-import { Design } from "../../../types";
+import { Design, Message, ProxyTrap } from "../../../types";
 import { Configuration } from "../../Configuration";
 
 export default function (
@@ -8,12 +8,25 @@ export default function (
     target: object,
     property: PropertyKey
 ): string[] {
-    const SD = Configuration.getPreferredOptions(target, property)[Configuration.constants.STRING_DECORATOR];
-    return [
+    const options = Configuration.getPreferredOptions(target, property);
+    const SD = options[Configuration.constants.STRING_DECORATOR];
+
+    const msg: Message = [
         SD.getAssembledField(
             `Access in ${SD.fieldLabel("operator")}`,
             `${SD.string(String(property))} in ${SD.getLoggerNameString(target)}`
         ),
         SD.getAssembledField("Access result", SD.boolean(result)),
     ];
+
+    msg.logData = {
+        proxyTrap: ProxyTrap.HAS,
+        propertyKey: property,
+        target,
+        trapResult: result,
+        design,
+        options,
+    };
+
+    return msg;
 }
