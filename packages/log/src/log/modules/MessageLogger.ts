@@ -181,7 +181,7 @@ export namespace MessageLogger {
 
     function extractValueFromDecoratedString(string: string): string {
         // remove special symbols
-        return string
+        return String(string)
             // produced by "template-colors-web"
             .replace(/(<\s*span[^>]*>)|(<\s*\/\s*span>)/g, "")
             // produced by "chalk"
