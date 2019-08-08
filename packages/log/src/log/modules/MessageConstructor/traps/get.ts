@@ -112,13 +112,13 @@ export default function (
     }
 
     message.logData = {
-        proxyTrap: ProxyTrap.GET,
-        propertyKey: property,
         target,
-        trapResult: result,
         design,
+        propertyKey: property,
         options: preferredOptions,
         args: innerArgs,
+        trapResult: result,
+        proxyTrap: ProxyTrap.GET,
     };
 
     return message;

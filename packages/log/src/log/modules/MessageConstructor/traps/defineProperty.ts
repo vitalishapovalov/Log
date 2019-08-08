@@ -30,13 +30,13 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.DEFINE_PROPERTY,
-        propertyKey: property,
         target,
-        trapResult: result,
         design,
         options,
+        propertyKey: property,
         descriptor: attributes,
+        trapResult: result,
+        proxyTrap: ProxyTrap.DEFINE_PROPERTY,
     };
 
     return msg;

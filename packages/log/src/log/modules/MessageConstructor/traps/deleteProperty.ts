@@ -20,12 +20,12 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.DELETE_PROPERTY,
-        propertyKey: property,
         target,
-        trapResult: result,
         design,
         options,
+        propertyKey: property,
+        trapResult: result,
+        proxyTrap: ProxyTrap.DELETE_PROPERTY,
     };
 
     return msg;

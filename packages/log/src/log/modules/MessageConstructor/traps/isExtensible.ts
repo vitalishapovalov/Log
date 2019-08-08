@@ -19,11 +19,11 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.IS_EXTENSIBLE,
         target,
-        trapResult: result,
         design,
         options,
+        trapResult: result,
+        proxyTrap: ProxyTrap.IS_EXTENSIBLE,
     };
 
     return msg;

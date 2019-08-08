@@ -28,12 +28,12 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.SET,
         target,
-        trapResult: result,
         design,
         options,
         valueToSet: prototype,
+        trapResult: result,
+        proxyTrap: ProxyTrap.SET,
     };
 
     return msg;

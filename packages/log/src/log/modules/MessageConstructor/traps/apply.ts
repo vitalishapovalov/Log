@@ -45,13 +45,13 @@ export default function (
     }
 
     message.logData = {
-        proxyTrap: ProxyTrap.APPLY,
         target,
-        trapResult: result,
         design,
         thisArg,
         args,
         options,
+        trapResult: result,
+        proxyTrap: ProxyTrap.APPLY,
     };
 
     return message;

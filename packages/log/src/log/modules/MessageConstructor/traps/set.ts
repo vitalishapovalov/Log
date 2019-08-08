@@ -62,13 +62,13 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.SET,
-        propertyKey: property,
         target,
-        trapResult: result,
         design,
+        propertyKey: property,
         valueToSet: value,
         options: preferredOptions,
+        trapResult: result,
+        proxyTrap: ProxyTrap.SET,
     };
 
     return msg;

@@ -19,11 +19,11 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.PREVENT_EXTENSIONS,
         target,
-        trapResult: result,
         design,
         options,
+        trapResult: result,
+        proxyTrap: ProxyTrap.PREVENT_EXTENSIONS,
     };
 
     return msg;

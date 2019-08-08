@@ -20,12 +20,12 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.HAS,
-        propertyKey: property,
         target,
-        trapResult: result,
         design,
         options,
+        propertyKey: property,
+        trapResult: result,
+        proxyTrap: ProxyTrap.HAS,
     };
 
     return msg;

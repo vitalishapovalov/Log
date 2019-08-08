@@ -26,11 +26,11 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.GET_PROTOTYPE_OF,
         target,
-        trapResult: result,
         design,
         options,
+        trapResult: result,
+        proxyTrap: ProxyTrap.GET_PROTOTYPE_OF,
     };
 
     return msg;

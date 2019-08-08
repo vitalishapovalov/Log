@@ -23,11 +23,11 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.OWN_KEYS,
         target,
-        trapResult: result,
         design,
         options,
+        trapResult: result,
+        proxyTrap: ProxyTrap.OWN_KEYS,
     };
 
     return msg;

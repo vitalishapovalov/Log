@@ -19,7 +19,6 @@ export default function (
         SD.getAssembledField("Retrieved descriptor", SD.logObjectProperties(result)),
     ];
 
-
     msg.extensibleObjects = [
         {
             name: "Retrieved descriptor",
@@ -28,13 +27,13 @@ export default function (
     ];
 
     msg.logData = {
-        proxyTrap: ProxyTrap.GET_OWN_PROPERTY_DESCRIPTOR,
-        propertyKey: property,
         target,
-        trapResult: result,
         design,
         options,
+        propertyKey: property,
         descriptor: result,
+        trapResult: result,
+        proxyTrap: ProxyTrap.GET_OWN_PROPERTY_DESCRIPTOR,
     };
 
     return msg;
