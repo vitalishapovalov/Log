@@ -4,6 +4,10 @@ import { LogHandler } from "./LogHandler";
 
 export class LoggerProxy<T extends object> implements ProxyHandler<T> {
 
+    public static create<T extends object>(target: T): T {
+        return new Proxy<T>(target, new this());
+    }
+
     private static handleTrap(trap: ProxyTrap, args: any[]): any {
         return (Reflect as any)[trap](...args);
     }

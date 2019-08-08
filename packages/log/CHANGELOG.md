@@ -1,3 +1,7 @@
+# 0.1.4 (not released yet)
+
+* highlight `bound` keyword for bound functions
+
 # 0.1.3
 
 * added `Nest.js` support

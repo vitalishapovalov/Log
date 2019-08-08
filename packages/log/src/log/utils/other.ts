@@ -6,7 +6,9 @@ import { isBrowser } from "./environment";
 // resolving "require()" calls by bundlers (webpack etc.)
 // we will need this only in node env, so simply mock it with dummy function in browsers
 // tslint:disable-next-line:no-eval
-export const requireFunc = isBrowser() ? () => void 0 : eval("require");
+export const requireFunc = isBrowser()
+    ? () => void 0
+    : eval("require");
 
 export const now = () => (
     isBrowser()
@@ -18,7 +20,9 @@ export const getTimeToExecMs = (start: number): number => (
     parseFloat((now() - start).toFixed(3))
 );
 
-export const toString = (val: any): string => Object.prototype.toString.call(val);
+export const toString = (val: any): string => (
+    Object.prototype.toString.call(val)
+);
 
 export const getUnderlyingPrototype = (obj: object) => (
     Reflect.getPrototypeOf(Reflect.getPrototypeOf(obj))

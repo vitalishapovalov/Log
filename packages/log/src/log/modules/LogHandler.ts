@@ -1,6 +1,6 @@
 import { isFunction, isPromise } from "@js-utilities/typecheck";
 
-import { LoggerOptions, MessageHandler, ProxyTrap } from "../types";
+import { Accessor, LoggerOptions, MessageHandler, ProxyTrap } from "../types";
 import { getDesign, getTimeToExecMs, isOwnMethod as isOwnM, now } from "../utils";
 import { MessageLogger } from "./MessageLogger";
 import { MessageConstructor } from "./MessageConstructor";
@@ -13,7 +13,8 @@ export namespace LogHandler {
         propKey: PropertyKey,
         value: any,
         options?: LoggerOptions,
-        isSet?: boolean
+        accessorType?: Accessor
+
     ) {
         return function (...innerArgs: any[]) {
             const preferredOptions = Configuration.getPreferredOptions(this, propKey, options) || options;
@@ -25,7 +26,7 @@ export namespace LogHandler {
                     // MDN: In strict mode, a false return value from the "set" handler
                     //      will throw a TypeError exception.
                     // we should avoid this behaviour and return true in any case if target is a setter
-                    return isSet || res;
+                    return (accessorType === Accessor.SET) || res;
                 } catch {
                     return false;
                 }
@@ -33,11 +34,13 @@ export namespace LogHandler {
             const timeToExecMs = getTimeToExecMs(start);
 
             // simple check instead of "isLogEnabled" is enough here,
-            // because there are no traps or special cases produced by this logger method
+            // because there are no traps or special cases produced by the "handleFunction" method
             if (Configuration.isLogDisabledByDefault(preferredOptions, null)) {
                 return trapResultValue;
             }
 
+            // if target if promise we will wait for it to resolve or reject
+            // and log result after
             if (isPromise(trapResultValue)) {
                 trapResultValue
                     .then((result: any) => logMessage(result, this))
@@ -49,7 +52,7 @@ export namespace LogHandler {
             return trapResultValue;
 
             function logMessage(res: any, ctx: any, tte: number = getTimeToExecMs(start)) {
-                const msgMethod = isSet ? ProxyTrap.SET : ProxyTrap.GET;
+                const msgMethod = accessorType === Accessor.SET ? ProxyTrap.SET : ProxyTrap.GET;
                 MessageLogger.logMessage(preferredOptions, tte, MessageConstructor[msgMethod](
                     res,
                     getDesign(ctx, propKey, trapResultValue, res, value),

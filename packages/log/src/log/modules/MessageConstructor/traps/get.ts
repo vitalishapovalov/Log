@@ -27,8 +27,8 @@ export default function (
         // instance/static get/set will also have FUNCTION type,
         // but we can detect them only with metadataOptions available
         && (!metadataOptions || (
-            metadataOptions[Configuration.constants.DECORATOR_TYPE] !== DecoratorType.GETSET &&
-            metadataOptions[Configuration.constants.DECORATOR_TYPE] !== DecoratorType.STATIC_GETSET
+            metadataOptions[Configuration.constants.DECORATOR_TYPE] !== DecoratorType.ACCESSOR &&
+            metadataOptions[Configuration.constants.DECORATOR_TYPE] !== DecoratorType.STATIC_ACCESSOR
         ));
     let isStaticProperty = isStatic && Configuration.isProperty(target[Configuration.constants.OPTIONS], metadataOptions);
 
@@ -49,7 +49,7 @@ export default function (
         }
     }
 
-    const isGetSet = !isMethod && !isProperty && !isStaticProperty;
+    const isAccessor = !isMethod && !isProperty && !isStaticProperty;
     const label = isHook
         ? `${staticPrefix}${SD.hook}`
         : isMethod
@@ -58,8 +58,8 @@ export default function (
     const resultLabel = `${isMethod ? "Call" : "Access"} result`;
     const propName = (() => {
         switch (true) {
-            case (isGetSet):
-                return SD.getSetString("get", SD.methodName(String(property)), design.returnType);
+            case (isAccessor):
+                return SD.accessorString("get", SD.methodName(String(property)), design.returnType);
             case (isMethod):
                 return `${SD.methodName(String(property))}${SD.paramsString(design, isHook ? 1 : 3)}`;
             case (isProperty):
@@ -70,7 +70,7 @@ export default function (
     })();
     message.push(SD.getAssembledField(label, propName));
 
-    if (isProperty || isStaticProperty || isMethod || isGetSet) {
+    if (isProperty || isStaticProperty || isMethod || isAccessor) {
         message.extensibleObjects.push({
             name: resultLabel,
             value: result,

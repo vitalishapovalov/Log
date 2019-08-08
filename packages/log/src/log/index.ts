@@ -73,9 +73,9 @@ export function Log(
                     innerDescriptor as PropertyDescriptor,
                     preparedOptions
                 );
-            case DecoratorType.GETSET:
-            case DecoratorType.STATIC_GETSET:
-                return LoggerProxyFactory.ofGetSet(
+            case DecoratorType.ACCESSOR:
+            case DecoratorType.STATIC_ACCESSOR:
+                return LoggerProxyFactory.ofAccessor(
                     innerTarget,
                     innerPropertyKey,
                     innerDescriptor as PropertyDescriptor,

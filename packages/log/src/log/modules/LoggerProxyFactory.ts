@@ -1,6 +1,6 @@
 import { isFunction } from "@js-utilities/typecheck";
 
-import { Constructor, GetSet, LoggerOptions, ProxyTrap } from "../types";
+import { Constructor, Accessor, LoggerOptions, ProxyTrap } from "../types";
 import { getTimeToExecMs, now } from "../utils";
 import { MessageLogger } from "./MessageLogger";
 import { MessageConstructor } from "./MessageConstructor";
@@ -69,7 +69,7 @@ export namespace LoggerProxyFactory {
         applyOptionsMetadata(target, propertyKey, options);
     }
 
-    export function ofGetSet(
+    export function ofAccessor(
         target: object | Function,
         propertyKey: PropertyKey,
         descriptor: PropertyDescriptor,
@@ -79,15 +79,15 @@ export namespace LoggerProxyFactory {
 
         // property can have get/set or both declared
         // if any is declared, log it
-        for (const getSet of [GetSet.GET, GetSet.SET]) {
-            if (!isFunction(descriptor[getSet])) continue;
-            const value = descriptor[getSet];
-            descriptor[getSet] = LogHandler.handleFunction(
+        for (const accessor of [Accessor.GET, Accessor.SET]) {
+            if (!isFunction(descriptor[accessor])) continue;
+            const value = descriptor[accessor];
+            descriptor[accessor] = LogHandler.handleFunction(
                 target,
                 propertyKey,
                 value,
                 getOptionsWithFallbackName(target, options),
-                getSet === GetSet.SET
+                accessor
             );
         }
 
@@ -128,7 +128,7 @@ export namespace LoggerProxyFactory {
             });
         }
 
-        return new Proxy<T>(entity, new LoggerProxy());
+        return LoggerProxy.create<T>(entity);
     }
 
     function getOptionsWithFallbackName(target: object, options: LoggerOptions): LoggerOptions {

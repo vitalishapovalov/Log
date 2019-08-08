@@ -275,6 +275,7 @@ export type LoggerTheme = {
     fieldLabel: RGB;
     fieldSeparator: RGB;
     otherText: RGB;
+    bound: RGB;
     number: RGB;
     boolean: RGB;
     string: RGB;
@@ -287,7 +288,7 @@ export type LoggerTheme = {
     timeStamp: RGB;
     succeed: RGB;
     failed: RGB;
-    getSet: RGB;
+    accessor: RGB;
     hook: RGB;
     // InstanceMessageLogger methods
     error: RGB;

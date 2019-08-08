@@ -55,6 +55,7 @@ export class StringDecorator {
     public readonly functionOp: string;
     public readonly staticOp: string;
     public readonly hook: string;
+    public readonly bound: string;
 
     public constructor(private readonly options: LoggerOptions) {
         this.theme = (() => {
@@ -79,6 +80,7 @@ export class StringDecorator {
         this.functionOp = StringDecorator.decorate("function", this.theme.function);
         this.staticOp = StringDecorator.decorate("static", this.theme.static);
         this.hook = StringDecorator.decorate("Hook", this.theme.hook);
+        this.bound = StringDecorator.decorate("bound", this.theme.bound);
     }
 
     public bracket(val: "{" | "}" | "{}"): string {
@@ -93,8 +95,8 @@ export class StringDecorator {
         return StringDecorator.decorate(val, this.theme.parentheses);
     }
 
-    public getSet(val: "get" | "set"): string {
-        return StringDecorator.decorate(val, this.theme.getSet);
+    public accessor(type: "get" | "set"): string {
+        return StringDecorator.decorate(type, this.theme.accessor);
     }
 
     public succeed(str: "succeed" | "success"): string {
@@ -251,8 +253,8 @@ export class StringDecorator {
         return `(${args.reduce((acc, t, i) => `${acc ? `${acc}, ` : ""}${this.unknownType(args[i], true, logDepth[i])}`, "")})`;
     }
 
-    public getSetString(getOrSet: "get" | "set", prop: string, designType: DesignType): string {
-        return `${getOrSet} ${prop}(): ${this.type(designType)};`;
+    public accessorString(accessor: "get" | "set", prop: string, designType: DesignType): string {
+        return `${accessor} ${prop}(): ${this.type(designType)};`;
     }
 
     public getLoggerNameString(target: any): string {
@@ -302,6 +304,7 @@ export class StringDecorator {
             .replace(/ delete /g, ` ${this.deleteOp} `)
             .replace(/( function )|( function)|(function )/g, s =>
                 s.replace("function", this.functionOp))
+            .replace(/ bound /, this.bound)
             .replace(/ static /g, ` ${this.staticOp} `)
             .replace(/ Hook /g, ` ${this.hook} `)
             .replace(/{/g, this.bracket("{"))
@@ -310,8 +313,8 @@ export class StringDecorator {
             .replace(/]/g, this.squareBracket("]"))
             .replace(/\[]/g, this.squareBracket("[]"))
             .replace(/\(\)/g, this.parentheses("()"))
-            .replace(/ get /g, ` ${this.getSet("get")} `)
-            .replace(/ set /g, ` ${this.getSet("set")} `)
+            .replace(/ get /g, ` ${this.accessor("get")} `)
+            .replace(/ set /g, ` ${this.accessor("set")} `)
             .replace(/( succeed )|( succeed)/g, s =>
                 s.replace("succeed", this.succeed("succeed")))
             .replace(/( success )|( success)/g, s =>

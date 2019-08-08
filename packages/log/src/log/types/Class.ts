@@ -2,7 +2,7 @@ export interface Constructor {
     new(...args: any[]): {};
 }
 
-export const enum GetSet {
+export const enum Accessor {
     GET = "get",
     SET = "set",
 }

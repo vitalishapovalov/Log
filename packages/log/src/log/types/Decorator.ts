@@ -3,10 +3,10 @@ export const enum DecoratorType {
     CLASS,
     PROPERTY,
     METHOD,
-    GETSET,
+    ACCESSOR,
     PARAMETER,
     STATIC_PROPERTY,
     STATIC_METHOD,
-    STATIC_GETSET,
+    STATIC_ACCESSOR,
     STATIC_PARAMETER,
 }

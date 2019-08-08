@@ -35,7 +35,7 @@ export namespace Configuration {
 
         // case when parent (class) has @Log decorator with defined theme (or not defined),
         // and method's @Log decorator doesn't have theme
-        // we should use parents theme, even if it's not defined
+        // we should use parents theme, even if it's wasn't defined explicitly
         const shouldUseParentTheme = !((metadataOptions || {}).theme)
             && target[constants.OPTIONS] && target[constants.OPTIONS][constants.STRING_DECORATOR];
         const themeProvider = shouldUseParentTheme ? target[constants.OPTIONS] : metadataOptions;
