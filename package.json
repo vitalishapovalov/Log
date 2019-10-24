@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/vitalishapovalov/js-utilities.git"
+    "url": "https://github.com/vitalishapovalov/Log.git"
   },
   "publishConfig": {
     "access": "public"
