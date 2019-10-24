@@ -6,12 +6,11 @@
 *.xml
 
 # JS
-packages/**/dist
+dist
 node_modules
-packages/**/package-lock.json
 
 # Rollup
 .rpt2_cache
 
 # Tests
-packages/**/coverage
+coverage
