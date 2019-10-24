@@ -9,15 +9,15 @@ An utility to automatically log object properties access/set/delete etc., descri
 
 In Browser
 
-![browser output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/1.png)
+![browser output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/1.png)
 
 In Node.js
 
-![node.js output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/2.png)
+![node.js output](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/2.png)
 
 Can be used to inject [logger](#instance-logger), has `Light` and `Dark` predefined themes
 
-![instance logger](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/3-4.png)
+![instance logger](https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/3-4.png)
 
 ## Table of Contents
 
@@ -107,7 +107,7 @@ new MyClass().myProp = "value";
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/5.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/5.png" alt="console output" width="350" />
 
 Also, it can be used as a decorator, but without decorators syntax:
 
@@ -140,7 +140,7 @@ new MyClass().myMethod();
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/6.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/6.png" alt="console output" width="350" />
 
 Also, can be used to override already declared options of owner class.
 
@@ -187,7 +187,7 @@ class MyClass {
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/7.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/7.png" alt="console output" width="350" />
 
 If method return value type is `Promise`, logger will resolve it's value and log it, instead of promise object. Execution time will also be re-calculated.
 
@@ -215,7 +215,7 @@ new MyClass().prop = 2000;
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/8.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/8.png" alt="console output" width="350" />
 
 #### Parameter
 
@@ -241,7 +241,7 @@ new MyClass().myMethod(["val1", 100, 200], ["val2"]);
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/9.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/9.png" alt="console output" width="350" />
 
 ### Function
 
@@ -285,7 +285,7 @@ logObject.myMethod();
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/10.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/10.png" alt="console output" width="350" />
 
 #### Functions
 
@@ -301,7 +301,7 @@ logObject({ param: "value" });
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/11.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/11.png" alt="console output" width="350" />
 
 ### Instance logger
 
@@ -368,7 +368,7 @@ new MyClass().myMethod();
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/12.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/12.png" alt="console output" width="350" />
 
 ##### Usage in TypeScript
 
@@ -418,7 +418,7 @@ class MyComponent extends React.Component {
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/13.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/13.png" alt="console output" width="350" />
 
 #### Nest
 
@@ -441,7 +441,7 @@ export class AppModule {
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/14.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/14.png" alt="console output" width="350" />
 
 ##### HTTP methods
 
@@ -468,7 +468,7 @@ export class AppController {
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/15.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/15.png" alt="console output" width="350" />
 
 #### Vue
 
@@ -492,7 +492,7 @@ export default log({
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/16.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/16.png" alt="console output" width="350" />
 
 ##### On-class usage
 
@@ -521,7 +521,7 @@ export default class HelloWorld extends Vue {
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/17.png" alt="console output" width="400" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/17.png" alt="console output" width="400" />
 
 #### Angular
 
@@ -549,7 +549,7 @@ export class AppComponent {
 
 Console output:
 
-<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/packages/log/docs/18.png" alt="console output" width="350" />
+<img src="https://raw.githubusercontent.com/vitalishapovalov/js-utilities/master/docs/18.png" alt="console output" width="350" />
 
 #### Other
 
