@@ -34,7 +34,7 @@ export namespace MessageLogger {
                 decoratedMessage: msg,
             });
             // means that log to console should be prevented
-            if (!interceptResult) return;
+            if (false === interceptResult) return;
         }
 
         console[options.consoleMethod](msg);
