@@ -1,4 +1,4 @@
-# 0.1.4 (not released yet)
+# 0.1.4
 
 * highlight `bound` keyword for bound functions
 * add `logInterceptor` callback, which will be invoked before every log. Also, returned value from this callback will decide whether to log message to console or not. `logInterceptor` accepts an object with a lot of data of proxied call:
