@@ -1,3 +1,7 @@
+# 0.1.4.1
+
+Technical release, cleanup npm package.
+
 # 0.1.4
 
 * highlight `bound` keyword for bound functions

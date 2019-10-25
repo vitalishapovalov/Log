@@ -1,6 +1,6 @@
 {
   "name": "@js-utilities/log",
-  "version": "0.1.4",
+  "version": "0.1.4.1",
   "description": "Utility library for javascript logging.",
   "license": "MIT",
   "author": {

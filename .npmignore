@@ -9,3 +9,5 @@ rollup.config.ts
 *.log
 docs
 tslint.ts
+.idea
+.travis.yml
