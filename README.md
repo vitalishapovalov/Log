@@ -2,7 +2,7 @@
 
 [![npm version](https://badge.fury.io/js/%40js-utilities%2Flog.svg)](https://badge.fury.io/js/%40js-utilities%2Flog)
 ![license](https://img.shields.io/github/license/vitalishapovalov/js-utilities.svg)
-[![Build Status](https://travis-ci.org/vitalishapovalov/js-utilities.svg?branch=master)](https://travis-ci.org/vitalishapovalov/js-utilities)
+[![Build Status](https://travis-ci.org/vitalishapovalov/log.svg?branch=master)](https://travis-ci.org/vitalishapovalov/log)
 [![Greenkeeper badge](https://badges.greenkeeper.io/vitalishapovalov/log.svg)](https://greenkeeper.io/)
 
 An utility to automatically log object properties access/set/delete etc., descriptor modification, function calls and a lot [more](#options) in a human-readable way.
