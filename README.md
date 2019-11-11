@@ -496,8 +496,6 @@ Console output:
 
 ##### On-class usage
 
-When using with `vue-class-component` lib, make sure you've imported `reflect-metadata` before your main `App` module.
-
 ```vue
 <script lang="ts">
 import { Log } from '@js-utilities/log';
