@@ -1,47 +1,47 @@
+import { AfterEach, BeforeEach, Describe, Test } from "@jest-decorated/core";
 import { getTFunction, getTObject } from "./__mocks__/logFunction";
 
-describe("log/log test", () => {
+@Describe("log/log test")
+class LogFunctionSpec {
 
-    let dummy;
-    let logSpy;
+    dummy;
+    logSpy;
 
-    beforeEach(() => {
-        logSpy = jest.spyOn(console, "log");
-    });
+    @BeforeEach()
+    beforeEach() {
+        this.logSpy = jest.spyOn(console, "log");
+    }
 
-    afterEach(() => {
-        logSpy.mockClear();
-    });
+    @AfterEach()
+    afterEach() {
+        this.logSpy.mockClear();
+    }
 
-    describe("when used on an object", () => {
+    @Test("when used on an object, should correctly log actions")
+    asObject() {
+        const instance = getTObject();
 
-        it("should correctly log actions", () => {
-            const instance = getTObject();
+        this.dummy = instance.prop;
+        instance.prop = "";
+        this.dummy = instance.getSet;
+        instance.getSet = "";
+        this.dummy = instance.method();
 
-            dummy = instance.prop;
-            instance.prop = "";
-            dummy = instance.getSet;
-            instance.getSet = "";
-            dummy = instance.method();
+        expect(JSON.stringify(this.logSpy.mock.calls[0])).toMatchSnapshot();
+        expect(JSON.stringify(this.logSpy.mock.calls[1])).toMatchSnapshot();
+        expect(JSON.stringify(this.logSpy.mock.calls[2])).toMatchSnapshot();
+        expect(JSON.stringify(this.logSpy.mock.calls[3])).toMatchSnapshot();
+        expect(JSON.stringify(this.logSpy.mock.calls[4])).toMatchSnapshot();
+        expect(this.logSpy).toHaveBeenCalledTimes(5);
+    }
 
-            expect(JSON.stringify(logSpy.mock.calls[0])).toMatchSnapshot();
-            expect(JSON.stringify(logSpy.mock.calls[1])).toMatchSnapshot();
-            expect(JSON.stringify(logSpy.mock.calls[2])).toMatchSnapshot();
-            expect(JSON.stringify(logSpy.mock.calls[3])).toMatchSnapshot();
-            expect(JSON.stringify(logSpy.mock.calls[4])).toMatchSnapshot();
-            expect(logSpy).toHaveBeenCalledTimes(5);
-        });
-    });
+    @Test("when used on a function, should correctly log apply")
+    asFunction() {
+        const fn = getTFunction();
 
-    describe("when used on a function", () => {
+        fn(100, ["alex"]);
 
-        it("should correctly log apply", () => {
-            const fn = getTFunction();
-
-            fn(100, ["alex"]);
-
-            expect(JSON.stringify(logSpy.mock.calls[0])).toMatchSnapshot();
-            expect(logSpy).toHaveBeenCalledTimes(1);
-        });
-    });
-});
+        expect(JSON.stringify(this.logSpy.mock.calls[0])).toMatchSnapshot();
+        expect(this.logSpy).toHaveBeenCalledTimes(1);
+    }
+}
