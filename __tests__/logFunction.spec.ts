@@ -1,21 +1,13 @@
-import { AfterEach, BeforeEach, Describe, Test } from "@jest-decorated/core";
+import { Describe, Spy, Test } from "@jest-decorated/core";
 import { getTFunction, getTObject } from "./__mocks__/logFunction";
 
 @Describe("log/log test")
 class LogFunctionSpec {
 
     dummy;
+
+    @Spy(console, "log")
     logSpy;
-
-    @BeforeEach()
-    beforeEach() {
-        this.logSpy = jest.spyOn(console, "log");
-    }
-
-    @AfterEach()
-    afterEach() {
-        this.logSpy.mockClear();
-    }
 
     @Test("when used on an object, should correctly log actions")
     asObject() {

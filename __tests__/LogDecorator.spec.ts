@@ -1,4 +1,4 @@
-import { AfterEach, BeforeEach, Describe, It } from "@jest-decorated/core";
+import { Describe, It, Spy } from "@jest-decorated/core";
 import {
     T,
     TConstructor,
@@ -23,17 +23,9 @@ import {
 class LogDecoratorSpec1 {
 
     dummy;
+
+    @Spy(console, "log")
     logSpy;
-
-    @BeforeEach()
-    beforeEach() {
-        this.logSpy = jest.spyOn(console, "log");
-    }
-
-    @AfterEach()
-    afterEach() {
-        this.logSpy.mockClear();
-    }
 
     @It("shouldn't log anything")
     test1() {
