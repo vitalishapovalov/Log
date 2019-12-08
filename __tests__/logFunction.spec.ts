@@ -1,4 +1,3 @@
-import { Describe, Spy, Test } from "@jest-decorated/core";
 import { getTFunction, getTObject } from "./__mocks__/logFunction";
 
 @Describe("log/log test")
