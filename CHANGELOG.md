@@ -1,3 +1,7 @@
+# 0.1.6
+
+Drop Node 8.x support. Updated most of the dependencies.
+
 # 0.1.5
 
 Technical release, cleanup npm package.
