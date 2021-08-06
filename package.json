@@ -37,7 +37,7 @@
   "devDependencies": {
     "@jest-decorated/core": "0.0.20",
     "@types/jest": "^26.0.13",
-    "@types/node": "^14.6.4",
+    "@types/node": "^16.4.13",
     "jest": "^24.8.0",
     "rollup": "^2.26.10",
     "rollup-plugin-commonjs": "^10.0.0",
