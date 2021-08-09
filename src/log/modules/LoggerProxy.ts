@@ -5,7 +5,7 @@ import { LogHandler } from "./LogHandler";
 export class LoggerProxy<T extends object> implements ProxyHandler<T> {
 
     public static create<T extends object>(target: T): T {
-        return new Proxy<T>(target, new this());
+        return new Proxy<T>(target, new this() as ProxyHandler<T>);
     }
 
     private static handleTrap(trap: ProxyTrap, args: any[]): any {
@@ -68,7 +68,7 @@ export class LoggerProxy<T extends object> implements ProxyHandler<T> {
     }
 
     @LogHandler.handleTrap(MessageConstructor[ProxyTrap.OWN_KEYS])
-    public ownKeys(target: T): PropertyKey[] {
+    public ownKeys(target: T): ArrayLike<string | symbol> {
         return LoggerProxy.handleTrap(ProxyTrap.OWN_KEYS, [target]);
     }
 
