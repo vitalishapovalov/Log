@@ -11,3 +11,4 @@ docs
 tslint.ts
 .idea
 .travis.yml
+.github

@@ -1,3 +1,11 @@
+# 0.1.8
+
+Dependencies bump. No code changes. Re-build the lib using latest ts/rollup/optimizers.
+
+# 0.1.7
+
+Dependencies bump. No code changes. Re-build the lib using latest ts/rollup/optimizers.
+
 # 0.1.6
 
 Drop Node 8.x support. Updated most of the dependencies.

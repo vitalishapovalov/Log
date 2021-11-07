@@ -12,5 +12,6 @@
     "declarationDir": "dist/types",
     "typeRoots": ["node_modules/@types"]
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "coverage"],
+  "include": ["src"]
 }

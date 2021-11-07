@@ -1,6 +1,6 @@
 {
   "name": "@js-utilities/log",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Utility library for javascript logging.",
   "license": "MIT",
   "author": {
@@ -35,7 +35,7 @@
     "prepublishOnly": "npm run lint && npm run test && npm run clean && npm i && npm run build"
   },
   "devDependencies": {
-    "@jest-decorated/core": "^0.1.0",
+    "@jest-decorated/core": "^0.1.1",
     "@types/jest": "^27.0.2",
     "@types/node": "^16.4.13",
     "jest": "^27.0.6",
@@ -48,10 +48,10 @@
     "ts-jest": "^27.0.4",
     "tslint": "^5.20.1",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.4"
   },
   "dependencies": {
-    "@js-utilities/typecheck": "^0.1.4",
+    "@js-utilities/typecheck": "^0.1.6",
     "chalk": "^4.1.2",
     "reflect-metadata": "^0.1.13",
     "template-colors-web": "^1.0.0",
