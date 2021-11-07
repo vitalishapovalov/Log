@@ -45,3 +45,15 @@ export class TFunction extends Function {}
 
 @Log({ provideLogger: true })
 export class TProvideLogger {}
+
+export class TMethod {
+    @Log
+    myMethod(a) {
+        return a;
+    }
+
+    @Log("NamedMethod")
+    myNamedMethod(a, b) {
+        return a + b;
+    }
+}

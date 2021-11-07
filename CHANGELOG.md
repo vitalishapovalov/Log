@@ -1,3 +1,9 @@
+# 0.1.9
+
+* fix retrieval of the logger name
+* fix `ownKeys` logging (exclude logger's tech symbols)
+* update & stabilize tests
+
 # 0.1.8
 
 Dependencies bump. No code changes. Re-build the lib using latest ts/rollup/optimizers.

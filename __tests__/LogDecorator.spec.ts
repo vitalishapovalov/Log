@@ -8,7 +8,7 @@ import {
     TSetPrototypeOf,
     TLogFullProperty,
     TFunction,
-    TProvideLogger
+    TProvideLogger, TMethod
 } from "./__mocks__/LogDecorator";
 
 // TODO when used as a parameter decorator
@@ -206,5 +206,17 @@ class LogDecoratorSpec1 {
         logger.error("String: $string(alex)");
 
         expect(this.logSpy).toHaveBeenCalledTimes(4);
+    }
+
+    @It("should correctly log methods usage")
+    testMethodLogging() {
+        const instance = new TMethod();
+
+        instance.myMethod("foo");
+        instance.myNamedMethod("foo", "bar");
+
+        expect(JSON.stringify(this.logSpy.mock.calls[0])).toMatchSnapshot();
+        expect(JSON.stringify(this.logSpy.mock.calls[1])).toMatchSnapshot();
+        expect(this.logSpy).toHaveBeenCalledTimes(2);
     }
 }

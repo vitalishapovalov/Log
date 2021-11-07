@@ -1,7 +1,7 @@
 import { isFunction } from "@js-utilities/typecheck";
 
 import { Constructor, Accessor, LoggerOptions, ProxyTrap } from "../types";
-import { getTimeToExecMs, now } from "../utils";
+import { getOwnClassName, getTimeToExecMs, now } from "../utils";
 import { MessageLogger } from "./MessageLogger";
 import { MessageConstructor } from "./MessageConstructor";
 import { LoggerProxy } from "./LoggerProxy";
@@ -11,7 +11,7 @@ import { Configuration } from "./Configuration";
 export namespace LoggerProxyFactory {
 
     export function ofClass<T extends Constructor>(constructor: T, options: LoggerOptions): T {
-        return class extends constructor {
+        return class __$$LoggerProxy extends constructor {
             public constructor(...args: any[]) {
                 const start = now();
                 super(...args);
@@ -134,7 +134,7 @@ export namespace LoggerProxyFactory {
     function getOptionsWithFallbackName(target: object, options: LoggerOptions): LoggerOptions {
         // if no name provided, try to use an existing options name or a constructor name
         const fallbackName = target[Configuration.constants.OPTIONS]
-            || (target && target.constructor)
+            || (target && getOwnClassName(target))
             || {};
         return {
             ...options,

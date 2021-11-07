@@ -3,19 +3,19 @@ import { SupportedFrameworks } from "./frameworks";
 
 export const SEPARATOR = "@" as const;
 
-export const OPTIONS: unique symbol = Symbol();
+export const OPTIONS: unique symbol = Symbol("OPTIONS");
 
-export const PARAMS_LOG_DEPTH: unique symbol = Symbol();
+export const PARAMS_LOG_DEPTH: unique symbol = Symbol("PARAMS_LOG_DEPTH");
 
-export const STRING_DECORATOR: unique symbol = Symbol();
+export const STRING_DECORATOR: unique symbol = Symbol("STRING_DECORATOR");
 
-export const DECORATOR_TYPE: unique symbol = Symbol();
+export const DECORATOR_TYPE: unique symbol = Symbol("DECORATOR_TYPE");
 
-export const IS_SUBCLASS: unique symbol = Symbol();
+export const IS_SUBCLASS: unique symbol = Symbol("IS_SUBCLASS");
 
-export const FRAMEWORK_NAME: unique symbol = Symbol();
+export const FRAMEWORK_NAME: unique symbol = Symbol("FRAMEWORK_NAME");
 
-export const PROMISE_FAILED: unique symbol = Symbol();
+export const PROMISE_FAILED: unique symbol = Symbol("PROMISE_FAILED");
 
 export const DEFAULT_LINE_HEIGHT = "20px" as const;
 
