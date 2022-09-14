@@ -1,7 +1,7 @@
 import { isFunction } from "@js-utilities/typecheck";
 
 import { Constructor, Accessor, LoggerOptions, ProxyTrap } from "../types";
-import { getOwnClassName, getTimeToExecMs, now } from "../utils";
+import { getOwnClassName } from "../utils/other";
 import { MessageLogger } from "./MessageLogger";
 import { MessageConstructor } from "./MessageConstructor";
 import { LoggerProxy } from "./LoggerProxy";
@@ -13,9 +13,9 @@ export namespace LoggerProxyFactory {
     export function ofClass<T extends Constructor>(constructor: T, options: LoggerOptions): T {
         return class __$$LoggerProxy extends constructor {
             public constructor(...args: any[]) {
-                const start = now();
+                const start = Configuration.getCrossPlatformUtilities().now();
                 super(...args);
-                const timeToExecMs = getTimeToExecMs(start);
+                const timeToExecMs = Configuration.getCrossPlatformUtilities().getTimeToExecMs(start);
 
                 const completeOptions: LoggerOptions = {
                     ...getOptionsWithFallbackName(this, options),

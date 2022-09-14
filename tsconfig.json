@@ -9,9 +9,9 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "declarationDir": "dist/types",
+    "declarationDir": "dist",
     "typeRoots": ["node_modules/@types"]
   },
   "exclude": ["node_modules", "dist", "coverage"],
-  "include": ["src", "__tests__", "jest.setup.ts"]
+  "include": ["src"]
 }

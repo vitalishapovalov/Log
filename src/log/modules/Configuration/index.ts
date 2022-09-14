@@ -1,11 +1,13 @@
 import { isArray, isBoolean, isFunction, isString, isUndefined } from "@js-utilities/typecheck";
 
-import { DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
+import { CrossPlatformUtilities, DecoratorType, LoggerOptions, PropTrapValue, ProxyTrap } from "../../types";
 import { StringDecorator } from "../StringDecorator";
 import * as _frameworks from "./frameworks";
 import * as _constants from "./constants";
 
 export namespace Configuration {
+
+    let crossPlatformUtilities: CrossPlatformUtilities | null = null;
 
     export const constants = _constants;
 
@@ -142,6 +144,17 @@ export namespace Configuration {
 
     export function notOptionPredicate(value: any): boolean {
         return value !== _constants.OPTIONS;
+    }
+
+    export function setCrossPlatformUtilities(newCrossPlatformUtilities: CrossPlatformUtilities): void {
+        crossPlatformUtilities = newCrossPlatformUtilities;
+    }
+
+    export function getCrossPlatformUtilities(): CrossPlatformUtilities {
+        if (!crossPlatformUtilities) {
+            throw new Error("trying to get CrossPlatformUtilities but they're not defined");
+        }
+        return crossPlatformUtilities;
     }
 
     function isFrameworkProperty(options: LoggerOptions, propKey: PropertyKey): boolean {

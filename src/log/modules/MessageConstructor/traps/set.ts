@@ -1,7 +1,7 @@
 import { isFunction, isSymbol } from "@js-utilities/typecheck";
 
 import { Design, DesignType, Message, ProxyTrap } from "../../../types";
-import { resolveDesignType } from "../../../utils";
+import { resolveDesignType } from "../../../utils/design";
 import { Configuration } from "../../Configuration";
 
 export default function (

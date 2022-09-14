@@ -1,3 +1,8 @@
+# 1.0.0
+
+* split a single entrypoint of the package into two separate entrypoints (browser and node)
+* remove semicolon decoration for a few cases - it could unpredictably break colors
+
 # 0.1.9
 
 * fix retrieval of the logger name

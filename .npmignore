@@ -1,7 +1,7 @@
 __tests__
 .rpt2_cache
 coverage
-src
+/src/
 node_modules
 tsconfig.json
 jest.setup.ts

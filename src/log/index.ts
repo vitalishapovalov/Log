@@ -1,7 +1,7 @@
 import { isNumber, isString } from "@js-utilities/typecheck";
 
 import { Constructor, DecoratorType, LoggerOptions } from "./types";
-import { resolveDecoratorType } from "./utils";
+import { resolveDecoratorType } from "./utils/decorator";
 import { Configuration } from "./modules/Configuration";
 import { StringDecorator } from "./modules/StringDecorator";
 import { LoggerProxyFactory } from "./modules/LoggerProxyFactory";

@@ -1,4 +1,4 @@
-# Automated, styled, declarative javascript logging
+# Automated, styled, declarative javascript debugging (logging)
 
 [![npm version](https://badge.fury.io/js/%40js-utilities%2Flog.svg)](https://badge.fury.io/js/%40js-utilities%2Flog)
 ![license](https://img.shields.io/github/license/vitalishapovalov/js-utilities.svg)
@@ -68,6 +68,7 @@ Decorators are available as an experimental feature of TypeScript. Official inst
 `@Log` decorator can be used in different ways:
 
 ```typescript
+// package will automatically detect wether you need browser or node version
 import { Log } from "@js-utilities/log";
 
 // default, no options provided
@@ -81,6 +82,16 @@ class MyClass {}
 // shorthand for @Log({ name: "MyLogger" })
 @Log("MyLogger")
 class MyClass {}
+```
+
+If you want to explicitly import browser / node version:
+
+```typescript
+// browser
+import { Log } from "@js-utilities/log/dist/browser";
+
+// node
+import { Log } from "@js-utilities/log/dist/node";
 ```
 
 #### Class
@@ -844,7 +855,7 @@ type LoggerOptions = {
 }
 ```
 
-## Requirements
+## Environment requirements
 
 * `Proxy` support
 * `Reflect` support

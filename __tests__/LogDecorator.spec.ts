@@ -8,7 +8,8 @@ import {
     TSetPrototypeOf,
     TLogFullProperty,
     TFunction,
-    TProvideLogger, TMethod
+    TProvideLogger,
+    TMethod,
 } from "./__mocks__/LogDecorator";
 
 // TODO when used as a parameter decorator

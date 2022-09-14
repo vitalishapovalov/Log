@@ -1,7 +1,6 @@
 import { isCallable, isString } from "@js-utilities/typecheck";
 
 import { InstanceMessageLogger, LoggerOptions, Message } from "../types";
-import { isBrowser, isFirefox, isNode, isSafari } from "../utils";
 import { StringDecorator } from "./StringDecorator";
 import { Configuration } from "./Configuration";
 
@@ -17,12 +16,12 @@ export namespace MessageLogger {
 
         // do not align on safari due to incorrect alignment
         // maybe fix in future, lowest priority
-        let msg = isSafari()
+        let msg = Configuration.getCrossPlatformUtilities().isSafari()
             ? msgWithOptional.join("\n")
             : alignMessage(msgWithOptional, SD).join("\n");
 
         // newlines as message separators in node console
-        if (isNode()) msg = "\n" + msg;
+        if (Configuration.getCrossPlatformUtilities().isNode()) msg = "\n" + msg;
 
         msg = applyOptionalStyles(msg, SD);
 
@@ -53,7 +52,7 @@ export namespace MessageLogger {
             let message = applyOptionalMessages(SD.otherText(text), options, null, SD, method);
             message = processInstanceMessageLoggerFormatters(message, SD);
             message = SD.decorateTextSpecialSymbols(message);
-            message = isNode() ? message + " " : "  " + message + "  ";
+            message = Configuration.getCrossPlatformUtilities().isNode() ? message + " " : "  " + message + "  ";
 
             console.log(applyOptionalStyles(message, SD), ...args);
         };
@@ -116,14 +115,15 @@ export namespace MessageLogger {
         let styledText: any = StringDecorator.decorate(
             text,
             SD.theme.background,
-            isNode() ? "bgRgb" : "rgbBG"
+            Configuration.getCrossPlatformUtilities().isNode() ? "bgRgb" : "rgbBG"
         );
 
         /// line-height
         // safari and firefox both have blanks between lines when setting line-height,
         // so we should avoid adding them
         // node.js doesn't support it at all
-        if (isBrowser() && !isFirefox() && !isSafari()) {
+        const crossPlatformUtils = Configuration.getCrossPlatformUtilities();
+        if (crossPlatformUtils.isBrowser() && !crossPlatformUtils.isFirefox() && !crossPlatformUtils.isSafari()) {
             styledText = styledText.style(`line-height: ${Configuration.constants.DEFAULT_LINE_HEIGHT};`);
         }
 

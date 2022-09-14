@@ -1,7 +1,8 @@
 import { isFunction, isPromise } from "@js-utilities/typecheck";
 
 import { Accessor, LoggerOptions, MessageHandler, ProxyTrap } from "../types";
-import { getDesign, getTimeToExecMs, isOwnMethod as isOwnM, now } from "../utils";
+import { getDesign } from "../utils/design";
+import { isOwnMethod as isOwnMethodFn } from "../utils/other";
 import { MessageLogger } from "./MessageLogger";
 import { MessageConstructor } from "./MessageConstructor";
 import { Configuration } from "./Configuration";
@@ -18,7 +19,7 @@ export namespace LogHandler {
     ) {
         return function (...innerArgs: any[]) {
             const preferredOptions = Configuration.getPreferredOptions(this, propKey, options) || options;
-            const start = now();
+            const start = Configuration.getCrossPlatformUtilities().now();
 
             const trapResultValue = (() => {
                 try {
@@ -31,7 +32,7 @@ export namespace LogHandler {
                     return false;
                 }
             })();
-            const timeToExecMs = getTimeToExecMs(start);
+            const timeToExecMs = Configuration.getCrossPlatformUtilities().getTimeToExecMs(start);
 
             // simple check instead of "isLogEnabled" is enough here,
             // because there are no traps or special cases produced by the "handleFunction" method
@@ -51,7 +52,7 @@ export namespace LogHandler {
 
             return trapResultValue;
 
-            function logMessage(res: any, ctx: any, tte: number = getTimeToExecMs(start)) {
+            function logMessage(res: any, ctx: any, tte: number = Configuration.getCrossPlatformUtilities().getTimeToExecMs(start)) {
                 const msgMethod = accessorType === Accessor.SET ? ProxyTrap.SET : ProxyTrap.GET;
                 MessageLogger.logMessage(preferredOptions, tte, MessageConstructor[msgMethod](
                     res,
@@ -72,14 +73,14 @@ export namespace LogHandler {
             descriptor.value = function (...args: any[]) {
                 const [argsTarget, argsPropKey, argsInnerArgs] = args;
                 let options: LoggerOptions = argsTarget[Configuration.constants.OPTIONS];
-                const start = now();
+                const start = Configuration.getCrossPlatformUtilities().now();
                 const trapResultValue = value.apply(target, args);
-                const timeToExecMs = getTimeToExecMs(start);
+                const timeToExecMs = Configuration.getCrossPlatformUtilities().getTimeToExecMs(start);
                 const isStatic = isFunction(argsTarget);
                 const metadataOptions = Reflect.getMetadata(Configuration.constants.OPTIONS, argsTarget, argsPropKey);
                 const isProperty = Configuration.isProperty(options, metadataOptions);
                 const isStaticProperty = isStatic && isProperty;
-                const isOwnMethod = isOwnM(argsTarget, argsPropKey);
+                const isOwnMethod = isOwnMethodFn(argsTarget, argsPropKey);
                 // MDN: In strict mode, a false return value from the "set" handler
                 //      will throw a TypeError exception.
                 // we should avoid this behaviour and return true in any case if target is a setter
@@ -114,7 +115,7 @@ export namespace LogHandler {
                     return function (...innerArgs: any[]) {
                         const trapResultValueCall = trapResultValue.apply(this, innerArgs);
 
-                        MessageLogger.logMessage(options, getTimeToExecMs(start), messageHandler(
+                        MessageLogger.logMessage(options, Configuration.getCrossPlatformUtilities().getTimeToExecMs(start), messageHandler(
                             trapResultValueCall,
                             getDesign(argsTarget, argsPropKey, innerArgs, trapResultValueCall),
                             innerArgs,
