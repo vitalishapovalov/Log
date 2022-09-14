@@ -4,11 +4,10 @@ import sourceMaps from "rollup-plugin-sourcemaps";
 import typescript from "rollup-plugin-typescript2";
 import { terser } from "rollup-plugin-terser";
 
-export default {
-    input: "src/index.ts",
+const createCommonConfig = (inputName) => ({
+    input: `src/${inputName}.ts`,
     output: [
-        { file: "dist/index.umd.js", format: "umd", sourcemap: true },
-        { file: "dist/index.esm.js", format: "es", sourcemap: true },
+        { file: `dist/${inputName}.js`, format: "umd", sourcemap: true },
     ],
     watch: {
         include: 'src/**',
@@ -34,4 +33,9 @@ export default {
             || /eval\("require"\)/.test(warning.frame);
         if (!isKnownIssue) next(warning);
     },
-};
+});
+
+export default [
+    createCommonConfig("browser"),
+    createCommonConfig("node"),
+];

@@ -1,4 +1,4 @@
-import { log } from "../../src/log";
+import { log } from "../../src/node";
 
 export const getTObject = () => log({
     prop: "prop_value",

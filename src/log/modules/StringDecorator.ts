@@ -1,24 +1,26 @@
-import templateColorsWeb from "template-colors-web";
 import { isNumber } from "@js-utilities/typecheck";
 
-import { Design, DesignType, InstanceMessageLogger, LoggerOptions, LoggerTheme, RGB } from "../types";
-import { isBrowser, isNode, requireFunc, resolveDesignType, toString } from "../utils";
-import * as constants from "./Configuration/constants";
+import {
+    DecorateColorMethod,
+    Design,
+    DesignType,
+    InstanceMessageLogger,
+    LoggerOptions,
+    LoggerTheme,
+    RGB,
+} from "../types";
+import { resolveDesignType } from "../utils/design";
+import { toString } from "../utils/other";
+import { Configuration } from "./Configuration";
 
 export class StringDecorator {
 
     public static decorate(
         val: any,
         args: RGB,
-        decorateMethod: "rgb" | "rgbBG" | "bgRgb" | "style" = "rgb"
+        decorateMethod: DecorateColorMethod = "rgb"
     ): string {
-        if (isBrowser()) {
-            return templateColorsWeb`${val}`[decorateMethod](...args);
-        }
-        if (isNode()) {
-            return requireFunc("chalk")[decorateMethod](...args)(val);
-        }
-        return val;
+        return Configuration.getCrossPlatformUtilities().stringDecorateFn(val, args, decorateMethod);
     }
 
     public static instanceLoggerMethod(method: keyof InstanceMessageLogger, SD: StringDecorator): string {
@@ -60,10 +62,10 @@ export class StringDecorator {
     public constructor(private readonly options: LoggerOptions) {
         this.theme = (() => {
             switch (this.options.theme) {
-                case "dark": return constants.DARK_THEME;
-                case "light": return constants.LIGHT_THEME;
+                case "dark": return Configuration.constants.DARK_THEME;
+                case "light": return Configuration.constants.LIGHT_THEME;
                 default: return {
-                    ...constants.DEFAULT_THEME,
+                    ...Configuration.constants.DEFAULT_THEME,
                     ...(this.options.theme as object || {}),
                 };
             }
@@ -162,7 +164,7 @@ export class StringDecorator {
     }
 
     public unknownType(val: any, removeBrackets?: boolean, logDepth?: number): string {
-        if (val === constants.PROMISE_FAILED) {
+        if (val === Configuration.constants.PROMISE_FAILED) {
             return this.failed("failed");
         }
         switch (resolveDesignType(val)) {
@@ -258,14 +260,14 @@ export class StringDecorator {
     }
 
     public getLoggerNameString(target: any): string {
-        const opts = target[constants.OPTIONS];
-        return `${this.otherText(opts.name)}${opts[constants.IS_SUBCLASS]
+        const opts = target[Configuration.constants.OPTIONS];
+        return `${this.otherText(opts.name)}${opts[Configuration.constants.IS_SUBCLASS]
             ? this.otherText(" subclass")
             : ""}`;
     }
 
     public getAssembledField(field: string, value: string | number | symbol): string {
-        return this.fieldLabel(field) + " " + constants.SEPARATOR + " " + String(value);
+        return this.fieldLabel(field) + " " + Configuration.constants.SEPARATOR + " " + String(value);
     }
 
     public decorateTextSpecialSymbols(text: string): string {
@@ -285,8 +287,6 @@ export class StringDecorator {
             )
             .replace(/\[/g, StringDecorator
                 .createReplacer(/\u001b\[.*/, [[1, 2]], this.squareBracket("[")))
-            .replace(/;/g, StringDecorator
-                .createReplacer(/\u001b\[.*/, [[6, 4]], this.semicolon))
             .replace(/\(/g, StringDecorator
                 .createReplacer(/<span style="color: rgb/, [[23, 23]], this.parentheses("(")))
             .replace(/\)/g, StringDecorator
