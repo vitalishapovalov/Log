@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@js-utilities/typecheck": "^0.1.6",
-    "chalk": "^4.1.2",
+    "chalk": "^5.1.0",
     "reflect-metadata": "^0.1.13",
     "template-colors-web": "^1.0.0",
     "xmldom": "^0.6.0"
